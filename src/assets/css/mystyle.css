@@ -1,0 +1,159 @@
+/* // Extra small devices (portrait phones, less than 576px)   */
+@media (max-width: 575.98px) {
+   .text-mobile{
+        font-size: 15px;
+   }.text-mobile2{
+        font-size: 13px;
+   }
+   .topx{
+    margin-top:10px
+   }
+.trx{
+      margin-bottom: 10px;
+ display: block;
+ min-height: 10px; 
+ max-height: 480
+  }
+.mobile{
+     display: none;
+  }
+}
+
+/* // Small devices (landscape phones, 576px and up)  */
+@media (min-width: 576px) and (max-width: 767.98px) {
+   
+.trx{
+      margin-bottom: 10px;
+ display: block;
+ min-height: 10px; 
+ max-height: 480px;
+  }
+  .brx{
+    background-color: #f8f9fa;
+    position: absolute;
+    height: -40px;
+    bottom: 0px;
+    left:630px;
+    width: 100%;
+    
+    
+}
+
+.mobile{
+     display: none;
+  }
+}
+
+/* // Medium devices (tablets, 768px and up)  */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  
+.trx{
+      margin-bottom: 10px;
+ display: block;
+  
+ min-height: 10px; 
+ max-height: 480px;
+  }
+  .brx{
+    background-color: #f8f9fa;
+    position: absolute;
+    height: -40px;
+    bottom: -40px;
+    left:630px;
+    width: 100%;
+    
+    
+}
+.mobile{
+     display: none;
+  }
+}
+
+/* // Large devices (desktops, 992px and up)   */
+@media (min-width: 992px) and (max-width: 1399.98px) {
+   
+.trx{
+      margin-bottom: 10px;
+ display: block;
+   
+ min-height: 10px; 
+ max-height: 450px;
+  }
+  .brx{
+    background-color: #f8f9fa;
+    position: absolute;
+    height: -40px;
+    width: 80%;
+    bottom: 0px;
+    left:630px
+    
+}
+}
+
+/* // Extra large devices (large desktops, 1200px and up)  */
+@media (min-width: 1400px) {
+    
+.trx{
+      margin-bottom: 10px;
+ display: block;
+ 
+ min-height: 10px; 
+ max-height: 480px;
+  }
+  .brx{
+background-color: #f8f9fa;
+    position: absolute;
+    height: -40px;
+    bottom: 0px;
+    left:630px;
+     width: 20%;
+    
+}
+}
+
+@media (min-width: 1800px) {
+  
+.trx{
+      margin-bottom: 10px;
+ display: block;
+
+ min-height: 10px; 
+ max-height: 600px;
+  }
+  .brx{
+    background-color: #f8f9fa;
+    position: absolute;
+     height: -40px;
+    bottom: 0px; width: 20%;
+    left:1150px
+}
+}
+
+.mouseA {
+    /*  
+    --bs-bg-opacity: 1;
+
+   background-color: rgb(120, 148, 116); */
+}
+
+.mouseA:hover {
+    cursor: pointer;
+    --bs-bg-opacity: 1;
+
+    background-color: rgb(120, 148, 116);
+}
+
+.mouseB:hover {
+    cursor: pointer;
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+
+}
+.mouseY:hover {
+    cursor: pointer;
+    
+}
+
+.none{
+     display: none;
+}

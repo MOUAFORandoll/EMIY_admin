@@ -1,0 +1,3 @@
+User-agent: * 
+Allow: / 
+Sitemap: https://dashboard.pubx.cm/sitemap.xml 

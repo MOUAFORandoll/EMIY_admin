@@ -1,0 +1,63 @@
+
+::v-deep .modal-container {
+  display: flex;
+  justify-content: center;
+overflow: scroll;
+
+  align-items: center;
+  width: auto;
+  padding-left: auto
+}
+
+::v-deep .modal-content {
+  overflow: scroll;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  max-height: 90%;
+  margin: 0em 1rem;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.25rem;
+  background: #fff;
+}
+
+.modal__title {
+  margin: 0 2rem 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.modal__content {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.modal__action {
+  display: flex;
+  flex-shrink: 0;
+  padding: 1rem 0 0;
+}
+
+.modal__close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.dark-mode div .modal-content {
+  border-color: #2d3748;
+  background-color: #1a202c;
+}
+
+.theme {
+  --popper-theme-background-color: rgb(255, 255, 255);
+  --popper-theme-background-color-hover: rgb(255, 255, 255);
+  --popper-theme-text-color: #040404;
+  --popper-theme-border-width: 2px;
+  --popper-theme-border-style: solid;
+  --popper-theme-border-color: rgb(224, 212, 212);
+  --popper-theme-border-radius: 6px;
+  --popper-theme-padding: 15px;
+
+}
