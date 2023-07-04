@@ -1,5 +1,4 @@
- import { ApiManage } from './ApiManage.js'
-import VueCookies from 'vue-cookies'
+ import { ApiManage } from './ApiManage.js' 
 
 
 import axios from 'axios'
@@ -10,10 +9,10 @@ import { refreshAuthenticated } from './refreshAuthenticated.js';
 //       so you won't necessarily have to import axios in each vue file
 
 const api = axios.create({ baseURL: new ApiManage().baseUrl });
-if (VueCookies.get('token') != undefined && VueCookies.get('token') != 'undefined') {
+// if (VueCookies.get('token') != undefined && VueCookies.get('token') != 'undefined') {
   
-api.defaults.headers.common['Authorization'] =   'Bearer ' + VueCookies.get('token')  ;
-}
+// api.defaults.headers.common['Authorization'] =   'Bearer ' + VueCookies.get('token')  ;
+// }
 // Vue.prototype.$api = api
 // ^ ^ ^ this will allow you to use this.$api
 //       so you can easily perform requests against your app's API

@@ -1,107 +1,117 @@
-import { createRouter, createWebHistory } from "vue-router"; 
- 
- 
- let routes = [
+import { createRouter, createWebHistory } from "vue-router";
+import Style from "@/views/StyleView.vue";
+import Home from "@/views/HomeView.vue";
+
+const routes = [
   // {
+  //   meta: {
+  //     title: "Select style",
+  //   },
   //   path: "/",
-  //   name: "/",
-  //   redirect: "/signin",
-  //  },
-  
-  {
-    path: "/stop",
-    name: "stop",
-      component: ()=>import('../views/ExceptionView.vue'),
-
-  },
-  {
-    path: "/",
-    name: "Dashboard",
-    component: ()=>import('../views/Dashboard.vue'),
-  },
-  {
-    path: "/tables",
-    name: "Tables", 
-    component: ()=>import('../views/Tables.vue'),
-     
-  },
-  {
-    path: "/billing",
-    name: "Billing",
-    component: ()=>import('../views/Billing.vue'),
-
-  }, 
-  {
-    path: "/rtl-page",
-    name: "RTL",
-    component: ()=>import('../views/Rtl.vue'),
-
-  },
-  {
-    path: "/signin",
-    name: "Signin",
-    component: ()=>import('../views/Signin.vue'),
-
-  },{
-    path: "/forgot",
-    name: "forgot",
-    component: ()=>import('../views/Forgot.vue'),
-
-  },{
-    path: "/price",
-    name: "price",
-    component: ()=>import('../views/Prix.vue'),
-
-  }, 
-  {
-    path: "/Signup",
-    name: "Signup",
-    component: ()=>import('../views/Signup.vue'),
-
-  }, 
-
-
-
+  //   name: "style",
+  //   component: Style,
+  // },
 
   {
-
-    path: "/produit",
-    
-    name: "produit",
-     
-    
-   },
-   {
-    path: "/produit/new",
-    
-    name: "produit_new",
-    component: ()=>import('../views/produit/nouveau.vue'),
+    // Document title tag
+    // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
+    meta: {
+      title: "Dashboard",
     },
-     
-// {
-//     path: "/produit/Listproduit",
-    
-//     name: "Listproduit",
-//     component: ()=>import('../views/produit/Listproduit.vue'),
-//     },
-// {
-//     path: "/produit/gerer",
-    
-//     name: "Gererproduit",
-//     component: ()=>import('../views/produit/Gererproduit.vue'),
-//     },
+    path: "/",
+    name: "dashboard",
+    component: Home,
+  },
+  /* {
+   // Document title tag
+   // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
+   meta: {
+     title: "Dashboard",
+   },
+   path: "/dashboard",
+   name: "dashboard",
+   component: Home,
+ }, */
+  {
+    meta: {
+      title: "Commandes",
+    },
+    path: "/commandes",
+    name: "commandes",
+    component: () => import("@/views/Commande/CommandeView.vue"),
+  },
+  {
+    meta: {
+      title: "Boutiques",
+    },
+    path: "/boutiques",
+    name: "boutiques",
+    component: () => import("@/views/Boutique/BoutiqueView.vue"),
+  }, 
+  {
+    meta: {
+      title: "Utilisateurs",
+    },
+    path: "/utilisateurs",
+    name: "utilisateurs",
+    component: () => import("@/views/Utilisateurs/UtilisateursView.vue"),
+  },  
+  {
+    meta: {
+      title: "Forms",
+    },
+    path: "/forms",
+    name: "forms",
+    component: () => import("@/views/FormsView.vue"),
+  },
+  {
+    meta: {
+      title: "Profile",
+    },
+    path: "/profile",
+    name: "profile",
+    component: () => import("@/views/ProfileView.vue"),
+  },
+  {
+    meta: {
+      title: "Ui",
+    },
+    path: "/ui",
+    name: "ui",
+    component: () => import("@/views/UiView.vue"),
+  },
+  {
+    meta: {
+      title: "Responsive layout",
+    },
+    path: "/responsive",
+    name: "responsive",
+    component: () => import("@/views/ResponsiveView.vue"),
+  },
+  {
+    meta: {
+      title: "Login",
+    },
+    path: "/login",
+    name: "login",
+    component: () => import("@/views/LoginView.vue"),
+  },
+  {
+    meta: {
+      title: "Error",
+    },
+    path: "/error",
+    name: "error",
+    component: () => import("@/views/ErrorView.vue"),
+  },
+];
 
-
-  
-]; 
 const router = createRouter({
-    base: process.env.BASE_URL,
-  history: createWebHistory(process.env.BASE_URL),
- routes,
-  linkActiveClass: "active",
-  
-}); 
+  history: createWebHistory(),
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    return savedPosition || { top: 0 };
+  },
+});
+
 export default router;
-
-
- 
