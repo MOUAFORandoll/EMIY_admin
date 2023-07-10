@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Style from "@/views/StyleView.vue";
+// import Style from "@/views/StyleView.vue";
 import Home from "@/views/HomeView.vue";
 
 const routes = [
@@ -13,12 +13,20 @@ const routes = [
   // },
 
   {
+    meta: {
+      title: "Login",
+    },
+    path: "/",
+    name: "login",
+    component: () => import("@/views/LoginView.vue"),
+  },
+  {
     // Document title tag
     // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
       title: "Dashboard",
     },
-    path: "/",
+    path: "/dashboard",
     name: "dashboard",
     component: Home,
   },
@@ -47,7 +55,14 @@ const routes = [
     path: "/boutiques",
     name: "boutiques",
     component: () => import("@/views/Boutique/BoutiqueView.vue"),
-  }, 
+  }, {
+    meta: {
+      title: "Boutiques",
+    },
+    path: "/boutiques/demandes",
+    name: "boutique_demandes",
+    component: () => import("@/views/Boutique/BoutiqueDemandeView.vue"),
+  },
   {
     meta: {
       title: "Utilisateurs",
@@ -55,7 +70,30 @@ const routes = [
     path: "/utilisateurs",
     name: "utilisateurs",
     component: () => import("@/views/Utilisateurs/UtilisateursView.vue"),
-  },  
+  }, {
+    meta: {
+      title: "Notifications",
+    },
+    path: "/notifications",
+    name: "notifications",
+    component: () => import("@/views/Notifications/NotificationView.vue"),
+  }, {
+    meta: {
+      title: "Service Client",
+    },
+    path: "/service_client",
+    name: "service_client",
+    component: () => import("@/views/Service_Client/ServiceClientView.vue"),
+  },
+
+  {
+    meta: {
+      title: "Negociations",
+    },
+    path: "/negociations",
+    name: "negociations",
+    component: () => import("@/views/Negociations/NegociationView.vue"),
+  },
   {
     meta: {
       title: "Forms",
@@ -90,14 +128,6 @@ const routes = [
   },
   {
     meta: {
-      title: "Login",
-    },
-    path: "/login",
-    name: "login",
-    component: () => import("@/views/LoginView.vue"),
-  },
-  {
-    meta: {
       title: "Error",
     },
     path: "/error",
@@ -114,4 +144,13 @@ const router = createRouter({
   },
 });
 
+router.beforeEach((to) => {
+  if (to.name != "login") {
+    console.log("different------------------", to.name);
+    if (localStorage.getItem("keySecret") == null) {
+      router.push("/");
+    }
+    //
+  }
+});
 export default router;

@@ -1,63 +1,72 @@
 <script setup>
-import { reactive } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { mdiAccount, mdiAsterisk } from "@mdi/js";
 import SectionFullScreen from "@/components/SectionFullScreen.vue";
 import CardBox from "@/components/CardBox.vue";
-import FormCheckRadio from "@/components/FormCheckRadio.vue";
+// import FormCheckRadio from "@/components/FormCheckRadio.vue";
 import FormField from "@/components/FormField.vue";
 import FormControl from "@/components/FormControl.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseButtons from "@/components/BaseButtons.vue";
 import LayoutGuest from "@/layouts/LayoutGuest.vue";
-
-const form = reactive({
-  login: "john.doe",
-  pass: "highly-secure-password-fYjUw-",
-  remember: true,
+import { useMainStore } from "@/stores/main";
+import { RequestApi } from "@/boot/RequestApi";
+let request = new RequestApi();
+onMounted(() => {
+  connected();
 });
 
-const router = useRouter();
+const mainStore = useMainStore();
 
-const submit = () => {
-  router.push("/dashboard");
+const router = useRouter();
+const connected = () => {
+  // router.beforeEach(() => {
+  console.log("------------");
+  console.log("------------" + mainStore.keySecret);
+  if (mainStore.keySecret != null) {
+    router.push("/dashboard");
+  }
+  // });
 };
+let loading = ref(false);
+// let remember = ref(true);
+let phone = ref("");
+let password = ref("");
+
+async function submit() {
+  loading.value = true;
+
+  let data = { phone: phone.value, password: password.value };
+  const response = await request.logIn(data);
+  console.log(response.status);
+  if (response.status == true) {
+    router.push("/dashboard");
+    loading.value = false;
+  } else {
+    loading.value = false;
+  }
+}
 </script>
 
 <template>
   <LayoutGuest>
     <SectionFullScreen v-slot="{ cardClass }" bg="purplePink">
       <CardBox :class="cardClass" is-form @submit.prevent="submit">
-        <FormField label="Login" help="Please enter your login">
-          <FormControl
-            v-model="form.login"
-            :icon="mdiAccount"
-            name="login"
-            autocomplete="username"
-          />
+        <FormField label="Login Phone" help="Please enter your phone">
+          <FormControl v-model="phone" :icon="mdiAccount" name="login" autocomplete="username" />
         </FormField>
 
         <FormField label="Password" help="Please enter your password">
-          <FormControl
-            v-model="form.pass"
-            :icon="mdiAsterisk"
-            type="password"
-            name="password"
-            autocomplete="current-password"
-          />
+          <FormControl v-model="password" :icon="mdiAsterisk" type="password" name="password"
+            autocomplete="current-password" />
         </FormField>
 
-        <FormCheckRadio
-          v-model="form.remember"
-          name="remember"
-          label="Remember"
-          :input-value="true"
-        />
+        <!-- <FormCheckRadio v-model="remember" name="remember" label="Remember" :input-value="true" /> -->
 
         <template #footer>
           <BaseButtons>
-            <BaseButton type="submit" color="info" label="Login" />
-            <BaseButton to="/dashboard" color="info" outline label="Back" />
+            <BaseButton type="submit" :loading="loading" color="info" label="Login" />
           </BaseButtons>
         </template>
       </CardBox>

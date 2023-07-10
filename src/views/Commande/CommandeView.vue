@@ -1,29 +1,24 @@
-<script setup >
+<script setup>
 import {
-  mdiMonitorCellphone,
+
   mdiTableBorder,
-  mdiTableOff,
+
   mdiReload,
 } from "@mdi/js";
 import SectionMain from "@/components/SectionMain.vue";
-import NotificationBar from "@/components/NotificationBar.vue";
 import CardBox from "@/components/CardBox.vue";
 import LayoutAuthenticated from "@/layouts/LayoutAuthenticated.vue";
 import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.vue";
 
-import CardBoxComponentEmpty from "@/components/CardBoxComponentEmpty.vue";
-
-import { mdiEye, mdiTrashCan } from "@mdi/js";
+import { mdiEye, } from "@mdi/js";
 import CardBoxModal from "@/components/CardBoxModal.vue";
-import TableCheckboxCell from "@/components/TableCheckboxCell.vue";
 import BaseLevel from "@/components/BaseLevel.vue";
-import BaseButtons from "@/components/BaseButtons.vue";
 import BaseButton from "@/components/BaseButton.vue";
 // import UserAvatar from "@/components/UserAvatar.vue";
 
-import { useMainStore } from "@/stores/main";
-import { onMounted, computed, ref } from 'vue';
-import { RequestApi } from '../../boot/RequestApi';
+import { onMounted, computed, ref } from "vue";
+import { RequestApi } from "@/boot/RequestApi";
+let request = new RequestApi();
 
 const isModalActive = ref(false);
 
@@ -35,13 +30,7 @@ const currentPage = ref(0);
 let listCommandes = ref([]);
 let loading = ref(true);
 let reloading = ref(true);
-let loadingUpdate = ref(false);
-let isInfo = ref(false);
-let isCommandes = ref(false);
-let commande = ref({ nom: "MOuafo" });
 let produits = ref([]);
-
-const mainStore = useMainStore();
 
 const itemsPaginated = computed(() =>
   listCommandes.value.slice(
@@ -50,7 +39,9 @@ const itemsPaginated = computed(() =>
   )
 );
 
-const numPages = computed(() => Math.ceil(listCommandes.value.length / perPage.value));
+const numPages = computed(() =>
+  Math.ceil(listCommandes.value.length / perPage.value)
+);
 
 const currentPageHuman = computed(() => currentPage.value + 1);
 
@@ -70,27 +61,23 @@ onMounted(async () => {
 
 async function getCommandesList() {
   reloading.value = true;
-  const response = await new RequestApi().getCommandesListAction();
+  const response = await request.getCommandesListAction();
   if (response.status) {
     reloading.value = false;
     loading.value = false;
     listCommandes.value = response.data;
   } else {
-
     reloading.value = false;
 
     loading.value = false;
-
   }
 }
-
 
 const getCommandeproduits = async (commandeSeclect) => {
   isModalActive.value = true;
   produits.value = commandeSeclect.produits;
   console.log(produits.value);
 };
-
 </script>
 
 <template>
@@ -99,7 +86,6 @@ const getCommandeproduits = async (commandeSeclect) => {
       <table>
         <thead>
           <tr>
-
             <th />
             <th>titre</th>
             <th>prix</th>
@@ -112,16 +98,13 @@ const getCommandeproduits = async (commandeSeclect) => {
         </thead>
         <tbody>
           <tr v-for="produit in produits" :key="produit.id">
-
             <td class="border-b-0 lg:w-6 before:hidden">
               <UserAvatar :username="produit.name" class="w-24 h-24 mx-auto lg:w-6 lg:h-6" />
             </td>
             <td data-label="titre">
               {{ produit.titre }}
             </td>
-            <td data-label="prix">
-              {{ produit.prix }} XAF
-            </td>
+            <td data-label="prix">{{ produit.prix }} XAF</td>
             <td data-label="quantite">
               {{ produit.quantite }}
             </td>
@@ -136,7 +119,6 @@ const getCommandeproduits = async (commandeSeclect) => {
             {{ produit.progress }}
           </progress>
         </td> -->
-
           </tr>
         </tbody>
       </table>
@@ -151,18 +133,15 @@ const getCommandeproduits = async (commandeSeclect) => {
   <LayoutAuthenticated>
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiTableBorder" title="Commandes" main>
-        <BaseButton @click="getCommandesList" :loading="reloading" target="_blank" :icon="mdiReload" label="Actualise"
-          color="contrast" rounded-full small />
+        <BaseButton :loading="reloading" target="_blank" :icon="mdiReload" label="Actualise" color="contrast" rounded-full
+          small @click="getCommandesList" />
       </SectionTitleLineWithButton>
 
-      <loader v-if="loading" />
-      <CardBox class="mb-2" has-table v-else>
-
+      <Loader v-if="loading" />
+      <CardBox v-else class="mb-2" has-table>
         <table>
           <thead>
             <tr>
-
-
               <th>Code de la Commande</th>
               <th>Point de livraison</th>
               <th>Nom client</th>
@@ -173,15 +152,11 @@ const getCommandeproduits = async (commandeSeclect) => {
 
               <th>Progress</th>
               <th>Action</th>
-
             </tr>
           </thead>
 
           <tbody>
-
             <tr v-for="commande in itemsPaginated" :key="commande.id">
-
-
               <td data-label="codeCommande">
                 {{ commande.codeCommande }}
               </td>
@@ -197,9 +172,7 @@ const getCommandeproduits = async (commandeSeclect) => {
               <td data-label="nombre_produit">
                 {{ commande.nombre_produit }}
               </td>
-              <td data-label="montant">
-                {{ commande.montant }} XAF
-              </td>
+              <td data-label="montant">{{ commande.montant }} XAF</td>
               <td data-label="date">
                 {{ commande.date }}
               </td>
@@ -231,8 +204,6 @@ const getCommandeproduits = async (commandeSeclect) => {
           </BaseLevel>
         </div>
       </CardBox>
-
-
     </SectionMain>
   </LayoutAuthenticated>
 </template>

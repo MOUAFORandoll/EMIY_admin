@@ -2,7 +2,7 @@
   "name": "EMIY-admin",
   "version": "3.2.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite   --port 8080",
     "build": "vite build",
     "preview": "vite preview --port 4173",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
@@ -12,9 +12,11 @@
     "@rushstack/eslint-patch": "^1.1.4",
     "axios": "^0.27.0",
     "chart.js": "^3.6.0",
-    "numeral": "^2.0.6",
     "jwt-decode": "^3.1.2",
+    "moment": "^2.29.4",
+    "numeral": "^2.0.6",
     "pinia": "^2.0.13",
+    "socket.io-client": "^4.7.1",
     "vue": "^3.3.4",
     "vue-router": "^4.0.0"
   },

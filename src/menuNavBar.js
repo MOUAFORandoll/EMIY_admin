@@ -9,7 +9,7 @@ import {
   mdiLogout,
   mdiThemeLightDark,
   mdiGithub,
-  mdiReact,
+  mdiBell,
 } from "@mdi/js";
 
 export default [
@@ -74,10 +74,10 @@ export default [
     target: "_blank",
   },
   {
-    icon: mdiReact,
+    icon: mdiBell,
     label: "React version",
+    to: "/notifications",
     isDesktopNoLabel: true,
-    href: "https://github.com/justboil/admin-one-react-tailwind",
     target: "_blank",
   },
   {

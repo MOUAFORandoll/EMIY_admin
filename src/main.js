@@ -6,20 +6,24 @@ import router from "./router";
 import { useMainStore } from "@/stores/main.js";
 import { useStyleStore } from "@/stores/style.js";
 import { darkModeKey, styleKey } from "@/config.js";
-import Loader from '@/components/Loader.vue';
-import SmallLoader from '@/components/SmallLoader.vue';
+import Loader from "@/components/Loader.vue";
+import CardMessageReceive from "@/components/CardMessageReceive.vue";
+import SmallLoader from "@/components/SmallLoader.vue";
 
 import "./css/main.css";
 
 /* Init Pinia */
-const pinia = createPinia(); 
+const pinia = createPinia();
 
 /* Create Vue app */
 
 const appInstance = createApp(App).use(router).use(pinia);
 
-appInstance.component('loader', Loader)
-appInstance.component('smallloader', SmallLoader)
+// eslint-disable-next-line vue/multi-word-component-names
+appInstance.component("Message", CardMessageReceive);
+appInstance.component("Loader", Loader);
+// eslint-disable-next-line vue/multi-word-component-names
+appInstance.component("Smallloader", SmallLoader);
 
 /* Init Pinia stores */
 const mainStore = useMainStore(pinia);
@@ -28,7 +32,7 @@ const styleStore = useStyleStore(pinia);
 /* Fetch sample data */
 mainStore.fetch("clients");
 mainStore.fetch("history");
-
+mainStore.onCreated();
 /* App style */
 styleStore.setStyle(localStorage[styleKey] ?? "basic");
 

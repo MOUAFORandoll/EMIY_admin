@@ -13,9 +13,9 @@ import LayoutAuthenticated from "@/layouts/LayoutAuthenticated.vue";
 import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import CardBoxComponentEmpty from "@/components/CardBoxComponentEmpty.vue";
- 
+
 import { onMounted, ref } from 'vue';
-import { RequestApi } from '../../boot/RequestApi';
+import { RequestApi } from '@/boot/RequestApi';
 
 let listCommandes = ref([]);
 let loading = ref(true);
@@ -30,7 +30,7 @@ onMounted(async () => {
 });
 
 async function getCommandesList() {
-  const response = await new RequestApi().getCommandesListAction();
+  const response = await request.getCommandesListAction();
   if (response.status) {
     loading.value = false;
     listCommandes.value = response.data;
@@ -53,7 +53,7 @@ const getCommandeproduits = async () => {
   produits.value = commande.value.produits;
   console.log(produits.value);
 };
- 
+
 </script>
 
 <template>

@@ -23,7 +23,7 @@ import BaseButton from "@/components/BaseButton.vue";
 
 import { useMainStore } from "@/stores/main";
 import { onMounted, computed, ref } from 'vue';
-import { RequestApi } from '../../boot/RequestApi';
+import { RequestApi } from '@/boot/RequestApi';
 
 const isModalActive = ref(false);
 
@@ -70,7 +70,7 @@ onMounted(async () => {
 });
 
 async function getBoutiquesList() {
-  const response = await new RequestApi().getBoutiquesListAction();
+  const response = await request.getBoutiquesListAction();
   if (response.status) {
     loading.value = false;
     listBoutiques.value = response.data;
@@ -80,7 +80,7 @@ async function getBoutiquesList() {
   }
 }
 async function getListProduits(codeBoutique) {
-  const response = await new RequestApi().geBoutiqueProduitAction(codeBoutique);
+  const response = await request.geBoutiqueProduitAction(codeBoutique);
   if (response.status) {
     loadingProduits.value = false;
     return response.data;
@@ -91,7 +91,7 @@ async function getListProduits(codeBoutique) {
 }
 
 async function getListCommandes(codeBoutique) {
-  const response = await new RequestApi().geBoutiqueCommandesAction(codeBoutique);
+  const response = await request.geBoutiqueCommandesAction(codeBoutique);
   if (response.status) {
     loadingCommandes.value = false;
     console.log(response.data);
@@ -146,10 +146,10 @@ const modalStyle = {
 
     <div class="row    flex  justify-center  ">
 
-      <BaseButton @click="setItems(true)" target="_blank" :icon="mdiReload" label="Produit" :color="!isProduits ?  'text-orange-800' : 'contrast' "  rounded-full
-        small />
+      <BaseButton @click="setItems(true)" target="_blank" :icon="mdiReload" label="Produit"
+        :color="!isProduits ? 'text-orange-800' : 'contrast'" rounded-full small />
       <BaseButton @click="setItems(false)" target="_blank" :icon="mdiReload" label="Commandes" class="ms-2"
-        :color="isProduits ?  'text-orange-800' : 'contrast' " rounded-full small />
+        :color="isProduits ? 'text-orange-800' : 'contrast'" rounded-full small />
 
     </div>
     <CardBox v-if="isProduits" class="my-2 max-h-96 overflow-y-auto">

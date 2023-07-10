@@ -1,55 +1,37 @@
-// import VueCookies from 'vue-cookies'
+// // import VueCookies from 'vue-cookies'
 
-import { api } from './axios';
-import jwt_decode from 'jwt-decode';
+// import { api } from "./axios";
+// import { useMainStore } from '@/stores/main';
+// const mainStore = useMainStore();
 
-// import router from '../router';
-const refreshAuthenticated = async () => {
-  let decode = [];
-  
-  // if (
-  //   VueCookies.get('refreshToken') != undefined &&
-  //   VueCookies.get('refreshToken') != 'undefined'
-  // ) {  
-  //    console.log('ici  *******',    VueCookies.get('refreshToken') );
-    await api
-      .post('/api/token/refresh', {
-        refreshToken:" VueCookies.get('refreshToken')",
-      })
-      .then((response) => {
-      //  console.log('nous effectuons le refresh token', response.data);
-      //   api.defaults.headers.common['Authorization'] =
-      //     'Bearer ' + String(response.data.token);
-      //   VueCookies.set('token', String(response.data.token));
-      //   VueCookies.set('refreshToken', String(response.data.refreshToken));
-      //   decode = jwt_decode(String(response.data.token));
-      //   VueCookies.set('nom', String(decode.nom));
-      //   VueCookies.set('prenom', String(decode.prenom));
-      //   VueCookies.set('phone', String(decode.phone));
-      //   VueCookies.set('id', String(decode.id));
-    
-        // console.log(decode.roles[1] == 'ROLE_ADMIN');
-    
-        // if (decode.roles[1] == 'ROLE_ADMIN') {
-        //   VueCookies.set('admin', '1');
-        // } else {
-        //   VueCookies.set('admin', '0');
-        // }
+// // import router from '../router';
+// const refreshAuthenticated = async () => {
 
-       
-        // console.log(VueCookies.get('id'));
-      })
-      .catch((e) => {
-        console.log(e);
-        if (e.response.status === 403 || e.response.status === 401) {
-  //  router.push({ name: 'Signin' });
-        }
-      });
-   // }
-  // else {
-  //         // router.push({ name: 'Signin' });
-  // }
-};
- 
 
-export { refreshAuthenticated };
+//   // if (
+//   //   VueCookies.get('refreshToken') != undefined &&
+//   //   VueCookies.get('refreshToken') != 'undefined'
+//   // ) {
+//   //    console.log('ici  *******',    VueCookies.get('refreshToken') );
+//   await api
+//     .post("/api/token/refresh", {
+//       refreshToken: localStorage.getItem("refreshToken"),
+//     })
+//     .then((response) => {
+//       api.defaults.headers.common['Authorization'] =
+//         'Bearer ' + String(response.data.token);
+//       mainStore.setUser(response.data);
+//     })
+//     .catch((e) => {
+//       console.log(e);
+//       if (e.response.status === 403 || e.response.status === 401) {
+//         //  router.push({ name: 'Signin' });
+//       }
+//     });
+//   // }
+//   // else {
+//   //         // router.push({ name: 'Signin' });
+//   // }
+// };
+
+// export { refreshAuthenticated };

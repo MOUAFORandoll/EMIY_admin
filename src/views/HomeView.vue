@@ -7,7 +7,6 @@ import {
   mdiChartTimelineVariant,
   mdiMonitorCellphone,
   mdiReload,
-  mdiGithub,
   mdiChartPie,
 } from "@mdi/js";
 import * as chartConfig from "@/components/Charts/chart.config.js";
@@ -22,47 +21,66 @@ import CardBoxTransaction from "@/components/CardBoxTransaction.vue";
 import CardBoxClient from "@/components/CardBoxClient.vue";
 import LayoutAuthenticated from "@/layouts/LayoutAuthenticated.vue";
 import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.vue";
-import SectionBannerStarOnGitHub from "@/components/SectionBannerStarOnGitHub.vue";
+import { RequestApi } from "@/boot/RequestApi";
+let request = new RequestApi();
+import router from "@/router";
 
 const chartData = ref(null);
+const dashData = ref({ "nbr_users": 0, "nbr_commandes": 0, "nbr_livraisons": 0 });
 
 const fillChartData = () => {
   chartData.value = chartConfig.sampleChartData();
 };
-
-onMounted(() => {
-  fillChartData();
-});
 
 const mainStore = useMainStore();
 
 const clientBarItems = computed(() => mainStore.clients.slice(0, 4));
 
 const transactionBarItems = computed(() => mainStore.history);
+onMounted(async () => {
+  await getDashBoard();
+  fillChartData();
+});
+
+let loading = ref(true);
+let reloading = ref(true);
+async function getDashBoard() {
+  reloading.value = true;
+  const response = await request.getDashBoardAction();
+  if (response.status) {
+    reloading.value = false;
+    loading.value = false;
+    dashData.value = response.data;
+  } else {
+    reloading.value = false;
+    loading.value = false;
+  }
+}
+function user() {
+  console.log('------');
+  router.push('utilisateurs')
+}
+function commande() {
+  console.log('------');
+  router.push('commandes')
+}
 </script>
 
 <template>
   <LayoutAuthenticated>
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiChartTimelineVariant" title="Overview" main>
-        <!-- <BaseButton
-          href="https://github.com/justboil/admin-one-vue-tailwind"
-          target="_blank"
-          :icon="mdiGithub"
-          label="Star on GitHub"
-          color="contrast"
-          rounded-full
-          small
-        /> -->
+      <SectionTitleLineWithButton :icon="mdiChartTimelineVariant" title="DashBoard" main>
+        <BaseButton :loading="reloading" target="_blank" :icon="mdiReload" label="Actualise" color="contrast" rounded-full
+          small @click="getDashBoard" />
       </SectionTitleLineWithButton>
 
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
-        <CardBoxWidget trend="12%" trend-type="up" color="text-emerald-500" :icon="mdiAccountMultiple" :number="512"
-          label="Clients" />
-        <CardBoxWidget trend="12%" trend-type="down" color="text-blue-500" :icon="mdiCartOutline" :number="7770"
-          prefix="$" label="Sales" />
+        <CardBoxWidget trend="12%" trend-type="up" color="text-emerald-500" :icon="mdiAccountMultiple"
+          :number="dashData.nbr_users" label="Clients" :navigate="user" />
+        <CardBoxWidget trend="12%" trend-type="down" color="text-blue-500" :icon="mdiCartOutline"
+          :number="dashData.nbr_commandes" prefix="" :navigate="commande" label="Commandes" />
         <CardBoxWidget trend="Overflow" trend-type="alert" color="text-red-500" :icon="mdiChartTimelineVariant"
-          :number="256" suffix="%" label="Performance" />
+          :number="dashData.nbr_livraisons" suffix="" :navigate="user" label="Livraisons" />
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">

@@ -9,29 +9,55 @@ import {
   mdiTelevisionGuide,
   mdiResponsive,
   mdiPalette,
-  mdiReact,
+  mdiAccountSwitch, mdiBell, mdiHomeGroup, mdiCommentProcessing, mdiPhoneSettings
 } from "@mdi/js";
 
 export default [
   {
-    to: "/",
+    to: "/dashboard",
     icon: mdiMonitor,
     label: "Dashboard",
   },
+
   {
     to: "/commandes",
     label: "Commandes",
     icon: mdiTable,
   },
   {
-    to: "/boutiques",
+
     label: "Boutiques",
-    icon: mdiTable,
+    icon: mdiHomeGroup,
+    menu: [
+      {
+        to: "/boutiques",
+        label: "Liste des Boutiques",
+
+      },
+      {
+        to: "/boutiques/demandes",
+        label: "Liste des Demandes",
+      },
+    ],
   },
+
+
   {
     to: "/utilisateurs",
     label: "Utilisateurs",
-    icon: mdiTable,
+    icon: mdiAccountSwitch,
+  }, {
+    to: "/notifications",
+    label: "Notifications",
+    icon: mdiBell,
+  }, {
+    to: "/negociations",
+    label: "Negociations",
+    icon: mdiCommentProcessing,
+  }, {
+    to: "/service_client",
+    label: "Service Client",
+    icon: mdiPhoneSettings,
   },
   {
     to: "/forms",

@@ -34,7 +34,7 @@ const passwordForm = reactive({
 });
 
 const submitProfile = () => {
-  mainStore.setUser(profileForm);
+  // mainStore.setUser(profileForm);
 };
 
 const submitPass = () => {
