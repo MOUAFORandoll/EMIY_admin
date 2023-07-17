@@ -13,6 +13,8 @@ import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.
 
 import CardBoxComponentEmpty from "@/components/CardBoxComponentEmpty.vue";
 
+import FormField from "@/components/FormField.vue";
+import FormControl from "@/components/FormControl.vue";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import CardBoxModal from "@/components/CardBoxModal.vue";
 import TableCheckboxCell from "@/components/TableCheckboxCell.vue";
@@ -24,34 +26,35 @@ import BaseButton from "@/components/BaseButton.vue";
 import { useMainStore } from "@/stores/main";
 import { onMounted, computed, ref } from 'vue';
 import { RequestApi } from '@/boot/RequestApi';
+let request = new RequestApi();
 
 const isModalActive = ref(false);
 
-const isModalDangerActive = ref(false);
+const isModalInfoActive = ref(false);
 
 const perPage = ref(5);
 
 const currentPage = ref(0);
-let listBoutiques = ref([]);
+let listCategories = ref([]);
 let loading = ref(true);
 let isProduits = ref(false);
-let isBoutiques = ref(false);
-let boutique = ref({ nom: "" });
+let isCategories = ref(false);
+let categorySelect = ref({ nom: "" });
 let loadingProduits = ref(true);
 let produits = ref([]);
-let loadingCommandes = ref(true);
+let loadingBoutique = ref(true);
 let commandes = ref([]);
 
 const mainStore = useMainStore();
 
 const itemsPaginated = computed(() =>
-  listBoutiques.value.slice(
+  listCategories.value.slice(
     perPage.value * currentPage.value,
     perPage.value * (currentPage.value + 1)
   )
 );
 
-const numPages = computed(() => Math.ceil(listBoutiques.value.length / perPage.value));
+const numPages = computed(() => Math.ceil(listCategories.value.length / perPage.value));
 
 const currentPageHuman = computed(() => currentPage.value + 1);
 
@@ -66,260 +69,178 @@ const pagesList = computed(() => {
 });
 
 onMounted(async () => {
-  await getBoutiquesList();
+  await getCategoriesList();
 });
 
-async function getBoutiquesList() {
-  const response = await request.getBoutiquesListAction();
+async function getCategoriesList() {
+  const response = await request.getCategoriesListAction();
   if (response.status) {
     loading.value = false;
-    listBoutiques.value = response.data;
+    listCategories.value = response.data;
   } else {
     loading.value = false;
 
   }
 }
-async function getListProduits(codeBoutique) {
-  const response = await request.geBoutiqueProduitAction(codeBoutique);
-  if (response.status) {
-    loadingProduits.value = false;
-    return response.data;
-  } else {
-    loadingProduits.value = false;
-    return [];
-  }
-}
 
-async function getListCommandes(codeBoutique) {
-  const response = await request.geBoutiqueCommandesAction(codeBoutique);
+async function getInfoCategorie(category) {
+  categorySelect.value = category
+  isModalInfoActive.value = !isModalInfoActive.value;
+  const response = await request.getInfoCategorie(categorySelect.value.id);
   if (response.status) {
-    loadingCommandes.value = false;
+    loadingBoutique.value = false;
     console.log(response.data);
     return response.data;
   } else {
-    loadingCommandes.value = false;
+    loadingBoutique.value = false;
     return [];
   }
 }
 
 
-function setItems(isProd) {
-  if (isProd) {
-    isProduits.value = true;
+
+let libelle = ref('');
+let description = ref('');
+
+const newCategory = async () => {
+  loadingUpdate.value = true;
+  let data = {
+    libelle: libelle.value,
+    description: description.value,
+    adminkeySecret: request.keySecret,
   }
+  const response = await request.newCategoryAction(
+    data
+  );
+  if (response.status) {
+    await getCategoriesList();
+    libelle.value = ''
+    description.value = ''
+    isModalActive.value = false;
+    loadingUpdate.value = false;
+  }
+
   else {
-    isProduits.value = false;
+
+    loadingUpdate.value = false;
   }
+};
 
+
+const stateCategorie = async () => {
+  loadingUpdate.value = true;
+
+  const response = await request.stateCategorieAction(
+    categorySelect.value.id
+  );
+  if (response.status) {
+    await getCategoriesList();
+    loadingUpdate.value = false;
+
+    isModalStateActive.value = false;
+  } else {
+    loadingUpdate.value = false;
+  }
+};
+
+let isModalStateActive = ref(false);
+let loadingUpdate = ref(false);
+function modalConfirm(category) {
+  categorySelect.value = category
+  isModalStateActive.value = true;
 }
-
-
-
-
-const getInformations = async (boutiqueSeclect) => {
-  isModalActive.value = true;
-  boutique.value = boutiqueSeclect;
-  produits.value = [];
-  const responseProduits = await getListProduits(boutiqueSeclect.codeBoutique);
-
-  produits.value = responseProduits;
-
-  const responseCommandes = await getListCommandes(boutiqueSeclect.codeBoutique);
-  console.log('---------------responseCommandes');
-  console.log(responseCommandes);
-
-  commandes.value = responseCommandes;
-
-};
-const modalStyle = {
-  width: "95%",
-  height: "95%",
-};
-
 </script>
 
 <template>
-  <CardBoxModal v-model="isModalActive" :title="'La Boutique ' + boutique.titre">
-    <p><b>Parle de : </b>{{ boutique.description }}</p>
+  <CardBoxModal v-model="isModalInfoActive" v-if="isModalInfoActive" :title="'La Categorie ' + categorySelect.libelle">
+    <p><b>Parle de : </b>{{ categorySelect.description }}</p>
     <p v-if="isModalActive"><b>Se trouve a : </b> {{ boutique.localisation.ville }}</p>
 
 
-    <div class="row    flex  justify-center  ">
 
-      <BaseButton @click="setItems(true)" target="_blank" :icon="mdiReload" label="Produit"
-        :color="!isProduits ? 'text-orange-800' : 'contrast'" rounded-full small />
-      <BaseButton @click="setItems(false)" target="_blank" :icon="mdiReload" label="Commandes" class="ms-2"
-        :color="isProduits ? 'text-orange-800' : 'contrast'" rounded-full small />
+    <CardBox class="my-2 max-h-96 overflow-y-auto">
+      
+    </CardBox>
 
+  </CardBoxModal>
+  <CardBoxModal v-model="isModalActive" title="Creer une categorie">
+    <div class="mb-2 max-h-96 overflow-y-auto">
+      <p>Nouvelle categorie</p>
+      <CardBox form @submit.prevent="submit">
+        <div class="mb-2 mt-5 max-h-96 overflow-y-auto">
+          <FormField label="Title" help="Do not enter the leading zero">
+            <FormControl v-model="libelle" type="libelle" />
+          </FormField>
+          <FormField label="Description" help="The description. Max 255 characters">
+            <FormControl type="textarea" v-model="description" />
+          </FormField>
+          <BaseButton target="_blank" :loading="loadingUpdate" :icon="mdiCogOutline" label="Creer" color='info' small
+            @click="newCategory" />
+
+        </div>
+      </CardBox>
     </div>
-    <CardBox v-if="isProduits" class="my-2 max-h-96 overflow-y-auto">
-      <table>
-        <thead>
-          <tr>
-            <th>Titre</th>
-            <th>Prix</th>
-            <th>Description</th>
-            <th>Quantite</th>
-            <th>Like</th>
-            <th>Code du Produit</th>
-            <th>Date d'ajout du produit</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="produit in produits" :key="produit.id">
 
 
-            <td data-label="titre">
-              {{ produit.titre }}
-            </td>
-            <td data-label="prix">
-              {{ produit.prix }} XAF
-            </td>
-            <td data-label="description">
-              {{ produit.description }} XAF
-            </td>
-            <td data-label="quantite">
-              {{ produit.quantite }}
-            </td>
-            <td data-label="like">
-              {{ produit.like }}
-            </td>
-            <td data-label="codeProduit">
-              {{ produit.codeProduit }}
-            </td>
-            <td data-label="date ">
-              {{ produit.date }}
-            </td>
-            <!-- <td data-label="codeProduit" class="lg:w-32">
-          <progress class="flex w-2/5 self-center lg:w-full" max="100" :value="produit.progress">
-            {{ produit.progress }}
-          </progress>
-        </td> -->
-
-          </tr>
-        </tbody>
-      </table>
-    </CardBox>
-    <CardBox v-else class="my-2 max-h-96 overflow-y-auto">
-      <table>
-        <thead>
-          <tr>
-
-            <th>Code de la Commande</th>
-            <th>Point de livraison</th>
-            <th>Nom client</th>
-            <th>Phone client</th>
-            <th>Nombre de produits</th>
-            <th>Montant</th>
-            <th>Jour</th>
-
-            <th>Progress</th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="commande in commandes" :key="commande.id">
-
-
-            <td data-label="codeCommande">
-              {{ commande.codeCommande }}
-            </td>
-            <td data-label="point_livraison">
-              {{ commande.point_livraison }}
-            </td>
-            <td data-label="user">
-              {{ commande.user_name }}
-            </td>
-            <td data-label="phone">
-              {{ commande.user_phone }}
-            </td>
-            <td data-label="nombre_produit">
-              {{ commande.nombre_produit }}
-            </td>
-            <td data-label="montant">
-              {{ commande.montant }} XAF
-            </td>
-            <td data-label="date">
-              {{ commande.date }}
-            </td>
-            <td data-label="Progress">
-              {{ commande.status }}
-            </td>
-            <!-- <td data-label="codeProduit" class="lg:w-32">
-          <progress class="flex w-2/5 self-center lg:w-full" max="100" :value="produit.progress">
-            {{ produit.progress }}
-          </progress>
-        </td> -->
-
-          </tr>
-        </tbody>
-      </table>
-    </CardBox>
   </CardBoxModal>
 
-  <CardBoxModal v-model="isModalDangerActive" title="Please confirm" button="danger" has-cancel>
-    <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-    <p>This is sample modal</p>
+  <CardBoxModal v-model="isModalStateActive" v-if="categorySelect != null" title="Please confirm" button="danger">
+    <p>
+      Vous allez {{ categorySelect.status == true ? "desactiver" : "activer" }} cette
+      categorie <b>{{ categorySelect.libelle }}</b>
+    </p>
+
+    <BaseButton label="Confirmer" :loading="loadingUpdate" color="info" @click="stateCategorie" />
   </CardBoxModal>
 
   <LayoutAuthenticated>
 
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiTableBorder" title="Boutiques" main>
-        <BaseButton @click="getBoutiquesList" target="_blank" :icon="mdiReload" label="Actualise" color="contrast"
-          rounded-full small />
+      <SectionTitleLineWithButton :icon="mdiTableBorder" title="Categories" main>
+        <BaseButton @click="isModalActive = !isModalActive" target="_blank" :icon="mdiReload" label="Ajouter"
+          color="contrast" rounded-full small />
       </SectionTitleLineWithButton>
 
 
-      <CardBox class="mb-2" has-table>
+      <Loader v-if="loading" />
+        <CardBox v-else class="mb-2" has-table>
 
         <table>
           <thead>
             <tr>
 
 
-              <th>Titre de la Boutique</th>
-              <th>Code de la Boutique</th>
-              <th>Proprietaire de la Boutique</th>
+              <th>Libelle de la Categorie</th>
+              <th>Description de la Categorie</th>
 
-              <th>Ville de la Boutique</th>
-              <th>Etat de la Boutique</th>
-              <th>Date de creation de la Boutique</th>
-
+              <th>Etat de la Categorie</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="boutique in itemsPaginated" :key="boutique.id">
+            <tr v-for="categorie in itemsPaginated" :key="categorie.id">
 
-              <td data-label="titre">
-                {{ boutique.titre }}
+              <td data-label="libelle">
+                {{ categorie.libelle }}
               </td>
-              <td data-label="codeBoutique">
-                {{ boutique.codeBoutique }}
-              </td>
-              <td data-label="user">
-                {{ boutique.user }}
+              <td data-label="description">
+                {{ categorie.description }}
               </td>
 
-              <td data-label="ville">
-                {{ boutique.localisation.ville }}
-              </td>
               <td data-label="etat">
-                {{ boutique.status == true ? "Active" : "Suspendue" }}
+                {{ categorie.status == true ? "Active" : "Desactive" }}
               </td>
-              <td data-label="dateCreated">
-                {{ boutique.dateCreated }}
-              </td>
+
               <!-- <td data-label="Progress" class="lg:w-32">
-          <progress class="flex w-2/5 self-center lg:w-full" max="100" :value="boutique.progress">
+          <progress class="flex w-2/5 self-center lg:w-full" max="100" :value="categorie.progress">
             {{ boutique.progress }}
           </progress>
         </td> -->
 
               <td class="before:hidden lg:w-1 whitespace-nowrap">
                 <BaseButtons type="justify-start lg:justify-end" no-wrap>
-                  <BaseButton color="info" :icon="mdiEye" small @click="getInformations(boutique)" />
-                  <BaseButton color="danger" :icon="mdiTrashCan" small @click="isModalDangerActive = true" />
+                  <BaseButton color="info" :icon="mdiEye" small @click="getInfoCategorie(categorie)" />
+                  <BaseButton color="danger" :icon="mdiTrashCan
+                    " small @click="modalConfirm(categorie)" />
                 </BaseButtons>
               </td>
             </tr>

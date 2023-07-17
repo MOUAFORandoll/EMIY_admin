@@ -58,7 +58,15 @@ export default [
     to: "/service_client",
     label: "Service Client",
     icon: mdiPhoneSettings,
-  },
+  }, {
+    to: "/categories",
+    label: "Categories",
+    icon: mdiTable,
+  },   {
+    to: "/game",
+    label: "Game",
+    icon: mdiTable,
+  }, 
   {
     to: "/forms",
     label: "Forms",
@@ -83,11 +91,6 @@ export default [
     to: "/profile",
     label: "Profile",
     icon: mdiAccountCircle,
-  },
-  {
-    to: "/login",
-    label: "Login",
-    icon: mdiLock,
   },
   {
     to: "/error",

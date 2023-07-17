@@ -26,6 +26,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import { useMainStore } from "@/stores/main";
 import { onMounted, computed, ref } from 'vue';
 import { RequestApi } from '@/boot/RequestApi';
+let request = new RequestApi();
 
 const isModalActive = ref(false);
 const perPage = ref(5);

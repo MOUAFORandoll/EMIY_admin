@@ -77,6 +77,8 @@ function commande() {
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
         <CardBoxWidget trend="12%" trend-type="up" color="text-emerald-500" :icon="mdiAccountMultiple"
           :number="dashData.nbr_users" label="Clients" :navigate="user" />
+        <CardBoxWidget trend="12%" trend-type="up" color="text-emerald-500" :icon="mdiAccountMultiple"
+          :number="dashData.nbr_boutiques" label="Boutiques" :navigate="boutique" />
         <CardBoxWidget trend="12%" trend-type="down" color="text-blue-500" :icon="mdiCartOutline"
           :number="dashData.nbr_commandes" prefix="" :navigate="commande" label="Commandes" />
         <CardBoxWidget trend="Overflow" trend-type="alert" color="text-red-500" :icon="mdiChartTimelineVariant"

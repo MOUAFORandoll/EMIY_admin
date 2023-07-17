@@ -71,6 +71,7 @@ onMounted(async () => {
 
 async function getCommunicationList() {
 
+
   const response = await request.getCommunicationListAction();
   if (response.status) {
     reloading.value = false;
@@ -81,6 +82,12 @@ async function getCommunicationList() {
     reloading.value = false;
     loading.value = false;
   }
+}
+async function relaod() {
+
+  reloading.value = true;
+  getCommunicationList();
+
 }
 
 async function getCommunicationMessageList(codeCommunication) {
@@ -184,7 +191,7 @@ const newCommunication = async () => {
       <SectionTitleLineWithButton :icon="mdiPhoneSettings" title="Service Client" main>
 
 
-        <BaseButton @click="getCommunicationList" :loading="reloading" target="_blank" :icon="mdiPlusBox" label="Ajouter"
+        <BaseButton @click="relaod()" :loading="reloading" target="_blank" :icon="mdiPlusBox" label="Ajouter"
           color="contrast" rounded-full small />
       </SectionTitleLineWithButton>
 

@@ -10,6 +10,7 @@ import Loader from "@/components/Loader.vue";
 import CardMessageReceive from "@/components/CardMessageReceive.vue";
 import SmallLoader from "@/components/SmallLoader.vue";
 
+import ImageVue from "@/components/ImageVue.vue";
 import "./css/main.css";
 
 /* Init Pinia */
@@ -24,6 +25,7 @@ appInstance.component("Message", CardMessageReceive);
 appInstance.component("Loader", Loader);
 // eslint-disable-next-line vue/multi-word-component-names
 appInstance.component("Smallloader", SmallLoader);
+appInstance.component("ImageVue", ImageVue);
 
 /* Init Pinia stores */
 const mainStore = useMainStore(pinia);

@@ -179,6 +179,7 @@ const getInformations = async (boutiqueSeclect) => {
         <table>
           <thead class="thead">
             <tr>
+              <th>Image</th>
               <th>Titre</th>
               <th>Prix</th>
               <th>Description</th>
@@ -190,6 +191,9 @@ const getInformations = async (boutiqueSeclect) => {
           </thead>
           <tbody>
             <tr v-for="produit in produits" :key="produit.id">
+              <td class="border-b-0  ">
+                <ImageVue :src="produit.images[0].src" />
+              </td>
               <td data-label="titre">
                 {{ produit.titre }}
               </td>

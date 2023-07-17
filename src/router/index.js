@@ -96,6 +96,22 @@ const routes = [
   },
   {
     meta: {
+      title: "Categorie",
+    },
+    path: "/categories",
+    name: "categories",
+    component: () => import("@/views/Categories/CategorieView.vue"),
+  },
+  {
+    meta: {
+      title: "game",
+    },
+    path: "/game",
+    name: "game",
+    component: () => import("@/views/Game/GameView.vue")
+  },
+  {
+    meta: {
       title: "Forms",
     },
     path: "/forms",

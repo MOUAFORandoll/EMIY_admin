@@ -86,20 +86,24 @@ const getCommandeproduits = async (commandeSeclect) => {
       <table>
         <thead>
           <tr>
-            <th />
-            <th>titre</th>
-            <th>prix</th>
-            <th>quantite</th>
+
+            <th>Image</th>
+            <th>Titre</th>
+            <th>Prix</th>
+            <th>Quantite</th>
             <th>Boutique</th>
 
-            <th>codeProduit</th>
-            <th />
+            <th>Code du Produit</th>
+
+
           </tr>
         </thead>
         <tbody>
           <tr v-for="produit in produits" :key="produit.id">
-            <td class="border-b-0 lg:w-6 before:hidden">
-              <UserAvatar :username="produit.name" class="w-24 h-24 mx-auto lg:w-6 lg:h-6" />
+
+
+            <td class="border-b-0  ">
+              <ImageVue :src="produit.photo.src" />
             </td>
             <td data-label="titre">
               {{ produit.titre }}

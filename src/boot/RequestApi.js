@@ -517,5 +517,92 @@ export class RequestApi {
       });
     //console.log(dataRes)
     return dataRes;
+  }; getCategoriesListAction = async () => {
+    let dataRes = { status: true, data: [] };
+
+    await api
+      .get("/dashboard/category?keySecret=" + this.keySecret)
+      .then(async (response) => {
+        dataRes = {
+          status: true,
+          data: response.data.data,
+        };
+      })
+      .catch(() => {
+        dataRes = {
+          status: false,
+          data: [],
+        };
+      });
+    //console.log(dataRes)
+    return dataRes;
+  }; getInfoCategorie = async () => {
+    let dataRes = { status: true, data: [] };
+
+    await api
+      .get("/dashboard/category/boutique?keySecret=" + this.keySecret +
+        "&category=" +
+        categoryId)
+      .then(async (response) => {
+        dataRes = {
+          status: true,
+          data: response.data.data,
+        };
+      })
+      .catch(() => {
+        dataRes = {
+          status: false,
+          data: [],
+        };
+      });
+    //console.log(dataRes)
+    return dataRes;
   };
+
+  newCategoryAction = async (data) => {
+    let dataRes = { status: true, data: [] };
+    // //console.log(data);
+    await api
+      .post(
+        "/dashboard/category",
+
+        data
+      )
+      .then((response) => {
+        dataRes = {
+          status: true,
+          data: response.data,
+        };
+      })
+      .catch(() => {
+        dataRes = {
+          status: false,
+        };
+      });
+    return dataRes;
+  };
+
+
+  stateCategorieAction = async (category) => {
+    let dataRes = { status: true, data: [] };
+    // //console.log(data);
+    await api
+      .patch(
+        "/dashboard/category/status/change",
+        { adminkeySecret: this.keySecret, category: category },
+
+      )
+      .then(() => {
+        dataRes = {
+          status: true,
+        };
+      })
+      .catch(() => {
+        dataRes = {
+          status: false,
+        };
+      });
+    return dataRes;
+  };
+
 }

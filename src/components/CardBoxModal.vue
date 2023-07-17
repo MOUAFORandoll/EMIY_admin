@@ -56,7 +56,8 @@ window.addEventListener("keydown", (e) => {
 </style>
 <template>
   <OverlayLayer v-show="value" @overlay-click="cancel">
-    <CardBox v-show="value" class="shadow-lg max-h-modal-custom  w-11/12 md:w-5/5 lg:w-5/5 xl:w-12/12 z-50" is-modal>
+    <CardBox v-show="value"
+      class="shadow-lg max-h-modal-custom  w-11/12 md:w-5/5 lg:w-5/5  lg:h-5/5 xl:w-12/12 xl:h-12/12 z-50" is-modal>
       <CardBoxComponentTitle :title="title">
         <BaseButton :label="buttonLabel" :color="button" @click="confirm" />
         <!-- <BaseButton v-if="hasCancel" :icon="mdiClose" color="whiteDark" small rounded-full @click.prevent="cancel" /> -->

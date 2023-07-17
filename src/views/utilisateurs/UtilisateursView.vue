@@ -24,6 +24,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import { useMainStore } from "@/stores/main";
 import { onMounted, computed, ref } from 'vue';
 import { RequestApi } from '@/boot/RequestApi';
+let request = new RequestApi();
 
 const isModalActive = ref(false);
 const isModalPassword = ref(false);
@@ -76,6 +77,14 @@ async function getUserList() {
   }
 }
 
+function getAllList() {
+
+
+
+  listUsers.value = listUsersSave.value;
+
+
+}
 function getClientsList() {
 
 
@@ -114,6 +123,8 @@ function getData() {
     getLivreursList();
   } else if (typeUser.value == 2) {
     getAdminsList();
+  } else {
+    getAllList();
   }
 }
 
@@ -310,6 +321,8 @@ const copyText = () => {
   <LayoutAuthenticated>
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiAccountSwitch" title="Utilisateurs" main>
+        <BaseButton @click="setType(3)" target="_blank" label="All" :color='typeUser == 3 ? "bg-blue-900" : "contrast"'
+          rounded-full small />
         <BaseButton @click="setType(0)" target="_blank" label="Client" :color='typeUser == 0 ? "bg-blue-900" : "contrast"'
           rounded-full small />
         <BaseButton @click="setType(1)" target="_blank" label="Livreur"
