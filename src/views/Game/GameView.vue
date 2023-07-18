@@ -28,12 +28,11 @@ import { onMounted, computed, ref } from 'vue';
 import { RequestApi } from '@/boot/RequestApi';
 let request = new RequestApi();
 
-let r1 = ref("");
-let syst = ref("");
+let mise = ref("");
+let gain = ref("");
 let run = ref(true);
 
 const scene = new THREE.Scene();
-
 const camera = new THREE.PerspectiveCamera(
   80,
   window.innerWidth / window.innerHeight, // Ratio d'aspect
@@ -41,14 +40,9 @@ const camera = new THREE.PerspectiveCamera(
   1000 // Loin
 );
 camera.position.z = 5;
-
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
-// Créez un cube
 const geometry = new THREE.BoxGeometry();
-
-
-
 function rotation() {
   let a = Math.floor(Math.random() * 20);
 
@@ -67,7 +61,6 @@ function generate() {
   let a = Math.floor(Math.random() * 6) + 1;
   let b = Math.floor(Math.random() * 6) + 1;
   const shuffledNumbers = shuffleArray(data);
-
   console.log(shuffledNumbers);
   return shuffledNumbers;
 }
@@ -85,14 +78,17 @@ function play() {
   if (cube) {
     scene.remove(cube);
   }
-
-
   cube = new THREE.Mesh(geometry, materials);
 
   console.log(cube);
   animate();
   scene.add(cube);
-  r1.value = result;
+  setTimeout(() => {
+    run.value = false;
+    console.log('time----', run.value);
+    gain.value = mise.value * result[4];
+  }, 1500);
+
 }
 function animate() {
   let container = document.querySelector('#container');
@@ -120,6 +116,7 @@ function animate() {
     cube.rotation.x = 0;
     cube.rotation.y = 0;
     cube.rotation.z = 0;
+
   }
   renderer.render(scene, camera);
 }
@@ -158,41 +155,61 @@ onMounted(() => {
 </script>
 <style>
 #container {
-  width: 10px;
-  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  background-color: #f5f5f5;
 }
 </style>
 <template>
   <LayoutAuthenticated>
 
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiTableBorder" title="Game" main>
+      <!-- <SectionTitleLineWithButton :icon="mdiTableBorder" title="Game" main>
         <BaseButton @click="play()" target="_blank" :icon="mdiReload" label="Joueur 1" color="contrast" rounded-full
           small />
         <BaseButton @click="jouer(1)" target="_blank" :icon="mdiReload" label="Systeme" color="contrast" rounded-full
           small />
         <BaseButton @click="stopOnFirstFace()" target="_blank" :label="!run ? 'Run' : 'Stop'" color="contrast"
           rounded-full small />
-      </SectionTitleLineWithButton>
+      </SectionTitleLineWithButton> -->
 
 
 
       <CardBox class="mb-2" has-table>
 
-        Resultat
-        User 1 : {{ r1 }}
+        Mise : {{ mise }}
 
       </CardBox>
 
       <CardBox class="mb-2" has-table>
 
-        Resultat
-        Systeme : {{ syst }}
+        Gain : {{ gain }}
 
       </CardBox>
 
 
-      <div id="container"></div>
+
+      <CardBox class="w-80 justify-center ">
+        <div id="container"></div>
+
+        <div class="mb-2 mt-5 flex space-x-4   ">
+          <BaseButton target="_blank" :icon="mdiCogOutline" label="MIN" color='info' small @click="play" />
+          <BaseButton target="_blank" :icon="mdiCogOutline" label="X2" color='info' small @click="play" />
+          <BaseButton target="_blank" :icon="mdiCogOutline" label="X/2" color='info' small @click="play" />
+
+          <BaseButton target="_blank" :icon="mdiCogOutline" label="MAX" color='info' small @click="play" />
+        </div>
+
+        <div class="mb-2 mt-5 flex space-x-4 ">
+          <FormControl v-model="mise" type="title" />
+
+          <BaseButton target="_blank" :loading="loadingUpdate" :icon="mdiCogOutline" label="Envoyer" color='info' small
+            @click="play" />
+
+        </div>
+      </CardBox>
     </SectionMain>
   </LayoutAuthenticated>
 </template>
