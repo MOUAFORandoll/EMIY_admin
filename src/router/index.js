@@ -42,26 +42,28 @@ const routes = [
  }, */
   {
     meta: {
-      title: "Commandes",
+      title: "Projet",
     },
-    path: "/commandes",
-    name: "commandes",
-    component: () => import("@/views/Commande/CommandeView.vue"),
+    path: "/projets",
+    name: "Projet",
+    component: () => import("@/views/Projet/ProjetView.vue"),
   },
   {
     meta: {
-      title: "Boutiques",
+      title: "Transactions",
     },
-    path: "/boutiques",
-    name: "boutiques",
-    component: () => import("@/views/Boutique/BoutiqueView.vue"),
-  }, {
+    path: "/Transactions",
+    name: "Transactions",
+    component: () => import("@/views/Transactions/TransactionsAllView.vue"),
+  },
+
+  {
     meta: {
-      title: "Boutiques",
+      title: "Transactions",
     },
-    path: "/boutiques/demandes",
-    name: "boutique_demandes",
-    component: () => import("@/views/Boutique/BoutiqueDemandeView.vue"),
+    path: "/Transactions/demandes",
+    name: "Transactions_demandes",
+    component: () => import("@/views/Transactions/TransactionsDemandeView.vue"),
   },
   {
     meta: {
@@ -70,14 +72,16 @@ const routes = [
     path: "/utilisateurs",
     name: "utilisateurs",
     component: () => import("@/views/Utilisateurs/UtilisateursView.vue"),
-  }, {
+  },
+  {
     meta: {
       title: "Notifications",
     },
     path: "/notifications",
     name: "notifications",
     component: () => import("@/views/Notifications/NotificationView.vue"),
-  }, {
+  },
+  {
     meta: {
       title: "Service Client",
     },
@@ -108,7 +112,7 @@ const routes = [
     },
     path: "/game",
     name: "game",
-    component: () => import("@/views/Game/GameView.vue")
+    component: () => import("@/views/Game/GameView.vue"),
   },
   {
     meta: {
@@ -161,12 +165,16 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  if (to.name != "login") {
-    console.log("different------------------", to.name);
-    if (localStorage.getItem("keySecret") == null) {
-      router.push("/");
-    }
-    //
-  }
+  // if (to.name != "login") {
+  //   console.log(
+  //     "different------------------",
+  //     localStorage.getItem("keySecret"),
+  //     to.name
+  //   );
+  //   if (localStorage.getItem("keySecret") == null) {
+  //     router.push("/");
+  //   }
+  //   //
+  // }
 });
 export default router;

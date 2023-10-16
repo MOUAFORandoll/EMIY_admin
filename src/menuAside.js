@@ -9,7 +9,11 @@ import {
   mdiTelevisionGuide,
   mdiResponsive,
   mdiPalette,
-  mdiAccountSwitch, mdiBell, mdiHomeGroup, mdiCommentProcessing, mdiPhoneSettings
+  mdiAccountSwitch,
+  mdiBell,
+  mdiHomeGroup,
+  mdiCommentProcessing,
+  mdiPhoneSettings,
 } from "@mdi/js";
 
 export default [
@@ -20,19 +24,17 @@ export default [
   },
 
   {
-    to: "/commandes",
-    label: "Commandes",
+    to: "/projets",
+    label: "Projets",
     icon: mdiTable,
   },
   {
-
-    label: "Boutiques",
+    label: "Transactions",
     icon: mdiHomeGroup,
     menu: [
       {
-        to: "/boutiques",
-        label: "Liste des Boutiques",
-
+        to: "/Transactions",
+        label: "Liste des Transactions",
       },
       {
         to: "/boutiques/demandes",
@@ -41,32 +43,36 @@ export default [
     ],
   },
 
-
   {
     to: "/utilisateurs",
     label: "Utilisateurs",
     icon: mdiAccountSwitch,
-  }, {
+  },
+  {
     to: "/notifications",
     label: "Notifications",
     icon: mdiBell,
-  }, {
+  },
+  {
     to: "/negociations",
     label: "Negociations",
     icon: mdiCommentProcessing,
-  }, {
+  },
+  {
     to: "/service_client",
     label: "Service Client",
     icon: mdiPhoneSettings,
-  }, {
+  },
+  {
     to: "/categories",
     label: "Categories",
     icon: mdiTable,
-  },   {
+  },
+  {
     to: "/game",
     label: "Game",
     icon: mdiTable,
-  }, 
+  },
   {
     to: "/forms",
     label: "Forms",

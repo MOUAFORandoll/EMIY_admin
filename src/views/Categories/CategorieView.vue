@@ -159,7 +159,7 @@ function modalConfirm(category) {
 
 
     <CardBox class="my-2 max-h-96 overflow-y-auto">
-      
+
     </CardBox>
 
   </CardBoxModal>
@@ -203,7 +203,7 @@ function modalConfirm(category) {
 
 
       <Loader v-if="loading" />
-        <CardBox v-else class="mb-2" has-table>
+      <CardBox v-else class="mb-2" has-table>
 
         <table>
           <thead>
@@ -238,7 +238,8 @@ function modalConfirm(category) {
 
               <td class="before:hidden lg:w-1 whitespace-nowrap">
                 <BaseButtons type="justify-start lg:justify-end" no-wrap>
-                  <BaseButton color="info" :icon="mdiEye" small @click="getInfoCategorie(categorie)" />
+                  <BaseButton color="info"  :icon="mdiEye" small
+                    @click="getInfoCategorie(categorie)" />
                   <BaseButton color="danger" :icon="mdiTrashCan
                     " small @click="modalConfirm(categorie)" />
                 </BaseButtons>
