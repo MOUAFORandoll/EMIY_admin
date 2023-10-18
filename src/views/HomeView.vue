@@ -26,7 +26,7 @@ let request = new RequestApi();
 import router from "@/router";
 
 const chartData = ref(null);
-const dashData = ref({ "nbr_users": 0, "nbr_commandes": 0, "nbr_livraisons": 0 });
+const dashData = ref({ "nbr_projets": 0, "nbr_commandes": 0, "nbr_livraisons": 0 });
 
 const fillChartData = () => {
   chartData.value = chartConfig.sampleChartData();
@@ -45,18 +45,20 @@ onMounted(async () => {
 let loading = ref(true);
 let reloading = ref(true);
 async function getDashBoard() {
-  reloading.value = true;
-  const response = await request.getDashBoardAction();
-  if (response.status) {
-    reloading.value = false;
-    loading.value = false;
-    dashData.value = response.data;
-  } else {
-    reloading.value = false;
-    loading.value = false;
-  }
+ await  request.getListAllTransaction();
+  dashData.value = { "nbr_projets": mainStore.listProjet.length, "nbr_transactions":  mainStore.listTransactions.length,  };
+  // reloading.value = true;
+  // const response = await request.getDashBoardAction();
+  // if (response.status) {
+  //   reloading.value = false;
+  //   loading.value = false;
+  //   dashData.value = response.data;
+  // } else {
+  //   reloading.value = false;
+  //   loading.value = false;
+  // }
 }
-function user() {
+function projet() {
   console.log('------');
   router.push('utilisateurs')
 }
@@ -70,19 +72,19 @@ function commande() {
   <LayoutAuthenticated>
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiChartTimelineVariant" title="DashBoard" main>
-        <BaseButton :loading="reloading" target="_blank" :icon="mdiReload" label="Actualise" color="contrast" rounded-full
+        <BaseButton   target="_blank" :icon="mdiReload" label="Actualise" color="contrast" rounded-full
           small @click="getDashBoard" />
       </SectionTitleLineWithButton>
 
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
-        <CardBoxWidget trend="12%" trend-type="up" color="text-emerald-500" :icon="mdiAccountMultiple"
-          :number="dashData.nbr_users" label="Clients" :navigate="user" />
-        <CardBoxWidget trend="12%" trend-type="up" color="text-emerald-500" :icon="mdiAccountMultiple"
-          :number="dashData.nbr_boutiques" label="Boutiques" :navigate="boutique" />
-        <CardBoxWidget trend="12%" trend-type="down" color="text-blue-500" :icon="mdiCartOutline"
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <CardBoxWidget   trend-type="up" color="text-emerald-500" :icon="mdiAccountMultiple"
+          :number="dashData.nbr_projets" label="Projets" :navigate="projet" />
+        <CardBoxWidget   trend-type="up" color="text-emerald-500" :icon="mdiAccountMultiple"
+          :number="dashData.nbr_transactions" label="Transactions" :navigate="boutique" />
+        <!-- <CardBoxWidget trend="12%" trend-type="down" color="text-blue-500" :icon="mdiCartOutline"
           :number="dashData.nbr_commandes" prefix="" :navigate="commande" label="Commandes" />
         <CardBoxWidget trend="Overflow" trend-type="alert" color="text-red-500" :icon="mdiChartTimelineVariant"
-          :number="dashData.nbr_livraisons" suffix="" :navigate="user" label="Livraisons" />
+          :number="dashData.nbr_livraisons" suffix="" :navigate="projet" label="Livraisons" /> -->
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">

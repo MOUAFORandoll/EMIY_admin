@@ -29,18 +29,20 @@ export default [
     icon: mdiTable,
   },
   {
+    to: "/Transactions",
+
     label: "Transactions",
     icon: mdiHomeGroup,
-    menu: [
-      {
-        to: "/Transactions",
-        label: "Liste des Transactions",
-      },
-      {
-        to: "/boutiques/demandes",
-        label: "Liste des Demandes",
-      },
-    ],
+    // menu: [
+    //   {
+    //     to: "/Transactions",
+    //     label: "Liste des Transactions",
+    //   },
+    //   {
+    //     to: "/boutiques/demandes",
+    //     label: "Liste des Demandes",
+    //   },
+    // ],
   },
 
   {
@@ -49,49 +51,9 @@ export default [
     icon: mdiAccountSwitch,
   },
   {
-    to: "/notifications",
-    label: "Notifications",
-    icon: mdiBell,
-  },
-  {
-    to: "/negociations",
-    label: "Negociations",
-    icon: mdiCommentProcessing,
-  },
-  {
-    to: "/service_client",
-    label: "Service Client",
-    icon: mdiPhoneSettings,
-  },
-  {
-    to: "/categories",
-    label: "Categories",
-    icon: mdiTable,
-  },
-  {
-    to: "/game",
-    label: "Game",
-    icon: mdiTable,
-  },
-  {
-    to: "/forms",
-    label: "Forms",
-    icon: mdiSquareEditOutline,
-  },
-  {
-    to: "/ui",
-    label: "UI",
-    icon: mdiTelevisionGuide,
-  },
-  {
-    to: "/responsive",
-    label: "Responsive",
-    icon: mdiResponsive,
-  },
-  {
-    to: "/",
-    label: "Styles",
-    icon: mdiPalette,
+    to: "/agregateur",
+    label: "Agregateur",
+    icon: mdiAccountSwitch,
   },
   {
     to: "/profile",
@@ -99,20 +61,8 @@ export default [
     icon: mdiAccountCircle,
   },
   {
-    to: "/error",
-    label: "Error",
-    icon: mdiAlertCircle,
-  },
-  {
-    label: "Dropdown",
-    icon: mdiViewList,
-    menu: [
-      {
-        label: "Item One",
-      },
-      {
-        label: "Item Two",
-      },
-    ],
+    to: "/ui",
+    label: "UI",
+    icon: mdiTelevisionGuide,
   },
 ];

@@ -52,20 +52,33 @@ export class RequestApi {
   getListAgregateur = async () => {
     let dataRes = { status: true, data: [] };
 
-    await api
-      .get(this.ApiEndPoint.agregateur_read_all)
-      .then(async (response) => {
-        dataRes = {
-          status: true,
-          data: response.data.data,
-        };
-      })
-      .catch(() => {
-        dataRes = {
-          status: false,
-          data: [],
-        };
-      });
+    const mainStore = useMainStore();
+    // if (mainStore.listAgregator.length == 0) {
+      
+    
+      await api
+        .get(this.ApiEndPoint.agregateur_read_all)
+        .then(async (response) => {
+          mainStore.setListAgregator(response.data.data);
+          dataRes = {
+            status: true,
+            data: response.data.data,
+          };
+        })
+        .catch(() => {
+          dataRes = {
+            status: false,
+            data: [],
+          };
+        })
+    // } else {
+     
+    //     dataRes = {
+    //       status: true,
+    //       data: mainStore.listAgregator ,
+    //     };
+    // }
+    // ;
     //console.log(dataRes)
     return dataRes;
   };
@@ -261,7 +274,8 @@ export class RequestApi {
    */
   getListProjet = async () => {
     let dataRes = { status: true, data: [] };
-
+ const mainStore = useMainStore();
+    
     await api
       .get(this.ApiEndPoint.projet_read_all)
       .then(async (response) => {
@@ -269,6 +283,7 @@ export class RequestApi {
           status: true,
           data: response.data.data,
         };
+        mainStore.setListProjet(response.data.data);
       })
       .catch(() => {
         dataRes = {
@@ -366,7 +381,7 @@ export class RequestApi {
     let dataRes = { status: true, data: [] };
 
     await api
-      .get(this.ApiEndPoint.transaction_for_agregateur + "apiKey=" + apiKey)
+      .get(this.ApiEndPoint.transaction_for_agregateur + "?apiKey=" + apiKey)
       .then(async (response) => {
         dataRes = {
           status: true,
@@ -419,7 +434,9 @@ export class RequestApi {
    */
   getListAllTransaction = async () => {
     let dataRes = { status: true, data: [] };
-
+    const mainStore = useMainStore(); await this.getListAgregateur();
+    await this.getListProjet();
+     
     await api
       .get(this.ApiEndPoint.transaction_read_all)
       .then(async (response) => {
@@ -427,6 +444,8 @@ export class RequestApi {
           status: true,
           data: response.data.data,
         };
+        
+    mainStore.setListTransactions(response.data.data);
       })
       .catch(() => {
         dataRes = {

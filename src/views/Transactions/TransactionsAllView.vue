@@ -1,5 +1,5 @@
 <script setup>
-import { mdiHomeGroup, mdiReload } from "@mdi/js";
+import { mdiHomeGroup, mdiReload, mdiCog } from "@mdi/js";
 import SectionMain from "@/components/SectionMain.vue";
 import CardBox from "@/components/CardBox.vue";
 import LayoutAuthenticated from "@/layouts/LayoutAuthenticated.vue";
@@ -18,9 +18,13 @@ import { onMounted, computed, ref } from "vue";
 import { RequestApi } from "@/boot/RequestApi";
 let request = new RequestApi();
 
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import CardBoxTransaction from "@/components/CardBoxTransaction.vue";
 import CardBoxClient from "@/components/CardBoxClient.vue";
-const isModalActive = ref(false);
+const isModalProjetActive = ref(false);
+const isModalAgregateurActive = ref(false); 
+import { useMainStore } from "@/stores/main";
 
 const chartData = ref(null);
 
@@ -34,8 +38,8 @@ const perPage = ref(5);
 const currentPage = ref(0);
 let listTransactions = ref([]);
 let loading = ref(true);
-let reloading = ref(true);
-let loadingUpdate = ref(false);
+let loadingTProjet = ref(false);
+let loadingTAgregateur = ref(false);
 let isProduits = ref(true);
 let transaction = ref({ nom: "" });
 let loadingProduits = ref(true);
@@ -64,98 +68,130 @@ const pagesList = computed(() => {
 
   return pagesList;
 });
+const mainStore = useMainStore();
 
 onMounted(async () => {
   fillChartData();
   await getTransactionsList();
+  
 });
 
 async function getTransactionsList() {
-  reloading.value = true;
+    loading.value = true;
+  console.log(loading.value);
   const response = await request.getListAllTransaction();
   if (response.status) {
-    reloading.value = false;
+   
     loading.value = false;
     listTransactions.value = response.data;
   } else {
-    reloading.value = false;
+   toast.error('Une erreur est survenue !', {
+      autoClose: 2000,
+    });
     loading.value = false;
   }
 }
-async function getInfoTransaction(transaction) {
-  transaction.value = transaction;
-  isModalActive.value = true;
+async function getProjetTransaction(projetsecretKey) {
+  loading.value = true;
+  loadingTProjet.value = true;
+
+  console.log(loading.value);
+  isModalProjetActive.value = false;
+  const response = await request.getTransactionProjet(projetsecretKey);
+  if (response.status) {
+
+    loading.value = false;
+    listTransactions.value = response.data;
+  } else {
+    toast.error('Une erreur est survenue !', {
+      autoClose: 2000,
+    });
+    loading.value = false;
+  }
+  loadingTProjet.value = false;
+
+}
+async function getAgregateurTransaction(apiKey) {
+  loading.value = true;
+  loadingTAgregateur.value = true;
+
+  console.log(loading.value);
+  isModalAgregateurActive.value = false;
+  const response = await request.getTransactionAgregateur(apiKey);
+  if (response.status) {
+    loading.value = false;
+    listTransactions.value = response.data;
+  } else {
+    toast.error('Une erreur est survenue !', {
+      autoClose: 2000,
+    });
+    loading.value = false;
+  }
+  loadingTAgregateur.value = false;
+
+
 }
 
 </script>
 
 
 <template>
-  <CardBoxModal v-model="isModalActive" :title="'La Transaction '">
-    <p><b>Parle de : </b> </p>
+  <CardBoxModal v-model="isModalProjetActive" title="Selectionnez un projet">
+    
 
-    <CardBox class="my-2 max-h-96 overflow-y-auto">
-      <SectionTitleLineWithButton :icon="mdiChartPie" title="Graphique de ventes Mensuel">
-        <BaseButton :icon="mdiReload" color="whiteDark" @click="fillChartData" />
-      </SectionTitleLineWithButton>
+      <CardBox class="my-2 max-h-70 overflow-y-auto">
+        
 
-      <CardBox class="my-2 ">
-        <table>
-          <thead class="thead">
-            <tr>
-              <th>Image</th>
-              <th>Titre</th>
-              <th>Prix</th>
-              <th>Description</th>
-              <th>Quantite</th>
-              <th>Like</th>
-              <th>Code du Produit</th>
-              <th>Date d'ajout du produit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="produit in produits" :key="produit.id">
-              <td class="border-b-0  ">
-                <ImageVue :src="produit.images[0].src" />
-              </td>
-              <td data-label="titre">
-                {{ produit.titre }}
-              </td>
-              <td data-label="prix">{{ produit.prix }} XAF</td>
-              <td data-label="description">{{ produit.description }} XAF</td>
-              <td data-label="quantite">
-                {{ produit.quantite }}
-              </td>
-              <td data-label="like">
-                {{ produit.like }}
-              </td>
-              <td data-label="codeProduit">
-                {{ produit.codeProduit }}
-              </td>
-              <td data-label="date ">
-                {{ produit.date }}
-              </td>
-              <!-- <td data-label="codeProduit" class="lg:w-32">
-          <progress class="flex w-2/5 self-center lg:w-full" max="100" :value="produit.progress">
-            {{ produit.progress }}
-          </progress>
-        </td> -->
-            </tr>
-          </tbody>
-        </table>
+      
+         <ul>
+<li  v-for="data in mainStore.listProjet">
+   <BaseButton    :icon="mdiPlusBox" :label="data['titre']" color="contrast" rounded-full
+                  small @click="getProjetTransaction(data['projetsecretKey'])" />  </li>
+  
+
+         </ul>
+       
+
       </CardBox>
+     
+    </CardBoxModal>
+   <CardBoxModal v-model="isModalAgregateurActive" title="Selectionner un agregateur">
+     
+     <CardBox class="my-2 max-h-70 overflow-y-auto">
+        
 
-    </CardBox>
-  </CardBoxModal>
+      
+           <ul>
+  <li  v-for="data in mainStore.listAgregator">
+     <BaseButton    :icon="mdiPlusBox" :label="data['agregateur']" color="contrast" rounded-full
+                    small @click="getAgregateurTransaction(data['apiKey'])" />  </li>
+  
+
+           </ul>
+       
+
+        </CardBox>
+     
+    </CardBoxModal>
 
 
   <LayoutAuthenticated>
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiHomeGroup" title="Transactions" main>
-        <!-- <BaseButton :loading="reloading" target="_blank" :icon="mdiReload" label="Actualise" color="contrast" rounded-full
-          small @click="getTransactionsList" /> -->
-      </SectionTitleLineWithButton>
-
+      
+          <BaseButton :loading="loading" target="_blank" :icon="mdiPlusBox" label="All" color="contrast" rounded-full
+              small @click="getTransactionsList()" />  
+                <BaseButton :loading="loadingTProjet" target="_blank" :icon="mdiPlusBox" label="Projet" color="contrast" rounded-full
+              small @click="isModalProjetActive = true" />   
+              <BaseButton :loading="loadingTAgregateur" target="_blank" :icon="mdiPlusBox" label="Agregateur" color="contrast" rounded-full
+            small @click="isModalAgregateurActive = true" /> 
+             <BaseButton  target="_blank" :icon="mdiPlusBox" label="Depots" color="contrast" rounded-full
+            small @click="isModalProjetActive = true" />
+              <BaseButton   target="_blank" :icon="mdiPlusBox" label="Retrait" color="contrast" rounded-full
+            small @click="isModalProjetActive = true" />
+         <BaseButton :icon="mdiCog" icon-w="w-4" icon-h="h-4" color="whiteDark" @click="navigate" small />
+       </SectionTitleLineWithButton>
+    
       <Loader v-if="loading" />
       <CardBox v-else class="mb-2" has-table>
         <table>

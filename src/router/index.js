@@ -21,8 +21,6 @@ const routes = [
     component: () => import("@/views/LoginView.vue"),
   },
   {
-    // Document title tag
-    // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
       title: "Dashboard",
     },
@@ -30,16 +28,16 @@ const routes = [
     name: "dashboard",
     component: Home,
   },
-  /* {
-   // Document title tag
-   // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
-   meta: {
-     title: "Dashboard",
-   },
-   path: "/dashboard",
-   name: "dashboard",
-   component: Home,
- }, */
+
+  {
+    meta: {
+      title: "Agregateur",
+    },
+    path: "/agregateur",
+    name: "agregateur",
+    component: import("@/views/AgregateurView.vue"),
+  },
+
   {
     meta: {
       title: "Projet",
@@ -59,68 +57,11 @@ const routes = [
 
   {
     meta: {
-      title: "Transactions",
-    },
-    path: "/Transactions/demandes",
-    name: "Transactions_demandes",
-    component: () => import("@/views/Transactions/TransactionsDemandeView.vue"),
-  },
-  {
-    meta: {
       title: "Utilisateurs",
     },
     path: "/utilisateurs",
     name: "utilisateurs",
     component: () => import("@/views/Utilisateurs/UtilisateursView.vue"),
-  },
-  {
-    meta: {
-      title: "Notifications",
-    },
-    path: "/notifications",
-    name: "notifications",
-    component: () => import("@/views/Notifications/NotificationView.vue"),
-  },
-  {
-    meta: {
-      title: "Service Client",
-    },
-    path: "/service_client",
-    name: "service_client",
-    component: () => import("@/views/Service_Client/ServiceClientView.vue"),
-  },
-
-  {
-    meta: {
-      title: "Negociations",
-    },
-    path: "/negociations",
-    name: "negociations",
-    component: () => import("@/views/Negociations/NegociationView.vue"),
-  },
-  {
-    meta: {
-      title: "Categorie",
-    },
-    path: "/categories",
-    name: "categories",
-    component: () => import("@/views/Categories/CategorieView.vue"),
-  },
-  {
-    meta: {
-      title: "game",
-    },
-    path: "/game",
-    name: "game",
-    component: () => import("@/views/Game/GameView.vue"),
-  },
-  {
-    meta: {
-      title: "Forms",
-    },
-    path: "/forms",
-    name: "forms",
-    component: () => import("@/views/FormsView.vue"),
   },
   {
     meta: {
@@ -137,14 +78,6 @@ const routes = [
     path: "/ui",
     name: "ui",
     component: () => import("@/views/UiView.vue"),
-  },
-  {
-    meta: {
-      title: "Responsive layout",
-    },
-    path: "/responsive",
-    name: "responsive",
-    component: () => import("@/views/ResponsiveView.vue"),
   },
   {
     meta: {
