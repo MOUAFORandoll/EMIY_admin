@@ -1,5 +1,5 @@
 {
-  "name": "EMIY-admin",
+  "name": "Babana Express-admin",
   "version": "3.2.0",
   "scripts": {
     "dev": "vite   --port 8080",

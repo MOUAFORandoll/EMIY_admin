@@ -31,28 +31,27 @@ const routes = [
 
   {
     meta: {
-      title: "Agregateur",
+      title: "Livraisons en attentes",
     },
-    path: "/agregateur",
-    name: "agregateur",
-    component: import("@/views/AgregateurView.vue"),
-  },
-
-  {
-    meta: {
-      title: "Projet",
-    },
-    path: "/projets",
-    name: "Projet",
-    component: () => import("@/views/Projet/ProjetView.vue"),
+    path: "/Livraisons/awaiting",
+    name: "l_awaiting",
+    component: () => import("@/views/Livraisons/LivraisonsAwaiting.vue"),
   },
   {
     meta: {
-      title: "Transactions",
+      title: "Livraisons En cours",
     },
-    path: "/Transactions",
-    name: "Transactions",
-    component: () => import("@/views/Transactions/TransactionsAllView.vue"),
+    path: "/Livraisons/inprocess",
+    name: "l_inprocess",
+    component: () => import("@/views/Livraisons/LivraisonsInProgress.vue"),
+  },
+  {
+    meta: {
+      title: "Livraisons termines",
+    },
+    path: "/Livraisons/finish",
+    name: "l_finish",
+    component: () => import("@/views/Livraisons/LivraisonsFinish.vue"),
   },
 
   {

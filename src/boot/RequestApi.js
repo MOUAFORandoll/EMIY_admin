@@ -47,53 +47,14 @@ export class RequestApi {
 
   /**
    *
-   * @returns La liste des agregateurs du systems
+   * @param {*} livraisons
+   * @returns retourne les  livraisons en attente
    */
-  getListAgregateur = async () => {
-    let dataRes = { status: true, data: [] };
-
-    const mainStore = useMainStore();
-    // if (mainStore.listAgregator.length == 0) {
-      
-    
-      await api
-        .get(this.ApiEndPoint.agregateur_read_all)
-        .then(async (response) => {
-          mainStore.setListAgregator(response.data.data);
-          dataRes = {
-            status: true,
-            data: response.data.data,
-          };
-        })
-        .catch(() => {
-          dataRes = {
-            status: false,
-            data: [],
-          };
-        })
-    // } else {
-     
-    //     dataRes = {
-    //       status: true,
-    //       data: mainStore.listAgregator ,
-    //     };
-    // }
-    // ;
-    //console.log(dataRes)
-    return dataRes;
-  };
-  /**
-   *
-   * @param {*} agregateur
-   * @returns retourne les informations de l'agregateur
-   */
-  getAgregateur = async (agregateur) => {
+  getLivraisonsAwaiting = async () => {
     let dataRes = { status: true, data: [] };
 
     await api
-      .get(
-        this.ApiEndPoint.agregateur_read_unique + "?idAgregateur=" + agregateur
-      )
+      .get(this.ApiEndPoint.livraisons + "/awaiting")
       .then(async (response) => {
         dataRes = {
           status: true,
@@ -106,23 +67,23 @@ export class RequestApi {
           data: [],
         };
       });
-    //console.log(dataRes)
+
     return dataRes;
   };
-
   /**
    *
-   * @param {*} agregateur
-   * @returns change le status de l'agregateur
+   * @param {*} livraisons
+   * @returns retourne les  livraisons en cours
    */
-  changestatusAgregateur = async (agregateur) => {
+  getLivraisonsInProcess = async () => {
     let dataRes = { status: true, data: [] };
 
     await api
-      .get(this.ApiEndPoint.agregateur_status + "?idAgregateur=" + agregateur)
+      .get(this.ApiEndPoint.livraisons + "/inprocess")
       .then(async (response) => {
         dataRes = {
           status: true,
+          data: response.data.data,
         };
       })
       .catch(() => {
@@ -131,341 +92,69 @@ export class RequestApi {
           data: [],
         };
       });
-    //console.log(dataRes)
+
     return dataRes;
   };
   /**
    *
-   * @param {*}  data les informations du projets
+   * @param {*} livraisons
+   * @returns retourne les  livraisons terminee
+   */
+  getLivraisonsFinish = async () => {
+    let dataRes = { status: true, data: [] };
+
+    await api
+      .get(this.ApiEndPoint.livraisons + "/finish")
+      .then(async (response) => {
+        dataRes = {
+          status: true,
+          data: response.data.data,
+        };
+      })
+      .catch(() => {
+        dataRes = {
+          status: false,
+          data: [],
+        };
+      });
+
+    return dataRes;
+  };
+  /**
+   *
+   * @param {*} livraisons
+   * @returns retourne les  livraisons terminee
+   */
+  getBabanaList = async () => {
+    let dataRes = { status: true, data: [] };
+
+    await api
+      .get(this.ApiEndPoint.babana + "/read")
+      .then(async (response) => {
+        dataRes = {
+          status: true,
+          data: response.data.data,
+        };
+      })
+      .catch(() => {
+        dataRes = {
+          status: false,
+          data: [],
+        };
+      });
+
+    return dataRes;
+  };
+  /**
+   *
+   * @param {*}  data les informations du affectLivreur
    * @returns  les informations actualisees
    */
-  newProjet = async (data) => {
+  affectLivreur = async (data) => {
     let dataRes = { status: true, data: [] };
 
     await api
-      .post(this.ApiEndPoint.projet_new, data)
-      .then(async (response) => {
-        dataRes = {
-          status: true,
-          data: response.data.data,
-        };
-      })
-      .catch(() => {
-        dataRes = {
-          status: false,
-          data: [],
-        };
-      });
-    //console.log(dataRes)
-    return dataRes;
-  };
-
-  /**
-   *
-   * @param {*} data les informations du projets a mettre a jour
-   * @returns le status et les informations actualisees
-   */
-  updateProjet = async (data) => {
-    let dataRes = { status: true, data: [] };
-
-    await api
-      .patch(this.ApiEndPoint.projet_update, data)
-      .then(async (response) => {
-        dataRes = {
-          status: true,
-          data: response.data.data,
-        };
-      })
-      .catch(() => {
-        dataRes = {
-          status: false,
-          data: [],
-        };
-      });
-    //console.log(dataRes)
-    return dataRes;
-  };
-
-  /**
-   *
-   * @param {*} projetsecretKey
-   * @returns change le projetsecretKey du projet
-   */
-  keyRefreshProjet = async (projetsecretKey) => {
-    let dataRes = { status: true, data: [] };
-
-    await api
-      .get(
-        this.ApiEndPoint.projet_key_refresh +
-          "?projetsecretKey=" +
-          projetsecretKey
-      )
-      .then(async (response) => {
-        dataRes = {
-          status: true,
-        };
-      })
-      .catch(() => {
-        dataRes = {
-          status: false,
-          data: [],
-        };
-      });
-    //console.log(dataRes)
-    return dataRes;
-  };
-
-  /**
-   *
-   * @param {*} projetsecretKey
-   * @returns retourne les informations du projetsecretKey
-   */
-  getProjetInfo = async (projetsecretKey) => {
-    let dataRes = { status: true, data: [] };
-
-    await api
-      .get(this.ApiEndPoint.projet_info + "?projetsecretKey=" + projetsecretKey)
-      .then(async (response) => {
-        dataRes = {
-          status: true,
-          data: response.data.data,
-        };
-      })
-      .catch(() => {
-        dataRes = {
-          status: false,
-          data: [],
-        };
-      });
-    //console.log(dataRes)
-    return dataRes;
-  };
-
-  /**
-   *
-   * @param {*} agregateur
-   * @returns change le status de l'agregateur
-   */
-  changestatusProjet = async (projetsecretKey) => {
-    let dataRes = { status: true, data: [] };
-
-    await api
-      .get(
-        this.ApiEndPoint.projet_status + "?projetsecretKey=" + projetsecretKey
-      )
-      .then(async (response) => {
-        dataRes = {
-          status: true,
-        };
-      })
-      .catch(() => {
-        dataRes = {
-          status: false,
-          data: [],
-        };
-      });
-    //console.log(dataRes)
-    return dataRes;
-  };
-
-  /**
-   *
-   * @returns La liste des projets du systems
-   */
-  getListProjet = async () => {
-    let dataRes = { status: true, data: [] };
- const mainStore = useMainStore();
-    
-    await api
-      .get(this.ApiEndPoint.projet_read_all)
-      .then(async (response) => {
-        dataRes = {
-          status: true,
-          data: response.data.data,
-        };
-        mainStore.setListProjet(response.data.data);
-      })
-      .catch(() => {
-        dataRes = {
-          status: false,
-          data: [],
-        };
-      });
-    //console.log(dataRes)
-    return dataRes;
-  };
-
-  /**
-   *
-   * @param {*} data  les informations du users pour effectuer le depot
-   * @returns le status ou l'url de paiement
-   */
-  newDepot = async (data) => {
-    let dataRes = { status: true, data: [] };
-
-    await api
-      .post(this.ApiEndPoint.transaction_depot_new, data)
-      .then(async (response) => {
-        dataRes = {
-          status: true,
-          data: response.data.data,
-        };
-      })
-      .catch(() => {
-        dataRes = {
-          status: false,
-          data: [],
-        };
-      });
-    //console.log(dataRes)
-    return dataRes;
-  };
-  /**
-   *
-   * @param {*} data  les informations du users pour effectuer le retrait
-   * @returns le status
-   */
-  newRetrait = async (data) => {
-    let dataRes = { status: true, data: [] };
-
-    await api
-      .post(this.ApiEndPoint.transaction_retrait_new, data)
-      .then(async (response) => {
-        dataRes = {
-          status: true,
-          data: response.data.data,
-        };
-      })
-      .catch(() => {
-        dataRes = {
-          status: false,
-          data: [],
-        };
-      });
-    //console.log(dataRes)
-    return dataRes;
-  };
-
-  /**
-   *
-   * @param {*} type de transaction du system : Depot = 1 , retrait = 2
-   * @returns retourne les transaction du type selectionne
-   */
-  getTransactionForType = async (type) => {
-    let dataRes = { status: true, data: [] };
-
-    await api
-      .get(this.ApiEndPoint.transaction_for_type + "type=" + type)
-      .then(async (response) => {
-        dataRes = {
-          status: true,
-          data: response.data.data,
-        };
-      })
-      .catch(() => {
-        dataRes = {
-          status: false,
-          data: [],
-        };
-      });
-    //console.log(dataRes)
-    return dataRes;
-  };
-
-  /**
-   *
-   * @param {*} apiKey de l'agregateur
-   * @returns retourne les transaction de l'agregateur
-   */
-  getTransactionAgregateur = async (apiKey) => {
-    let dataRes = { status: true, data: [] };
-
-    await api
-      .get(this.ApiEndPoint.transaction_for_agregateur + "?apiKey=" + apiKey)
-      .then(async (response) => {
-        dataRes = {
-          status: true,
-          data: response.data.data,
-        };
-      })
-      .catch(() => {
-        dataRes = {
-          status: false,
-          data: [],
-        };
-      });
-    //console.log(dataRes)
-    return dataRes;
-  };
-
-  /**
-   *
-   * @param {*} projetsecretKey
-   * @returns retourne les transaction du projet
-   */
-  getTransactionProjet = async (projetsecretKey) => {
-    let dataRes = { status: true, data: [] };
-
-    await api
-      .get(
-        this.ApiEndPoint.transaction_for_projet +
-          "?projetsecretKey=" +
-          projetsecretKey
-      )
-      .then(async (response) => {
-        dataRes = {
-          status: true,
-          data: response.data.data,
-        };
-      })
-      .catch(() => {
-        dataRes = {
-          status: false,
-          data: [],
-        };
-      });
-    //console.log(dataRes)
-    return dataRes;
-  };
-
-  /**
-   *
-   * @returns La liste des transaction du systems
-   */
-  getListAllTransaction = async () => {
-    let dataRes = { status: true, data: [] };
-    const mainStore = useMainStore(); await this.getListAgregateur();
-    await this.getListProjet();
-     
-    await api
-      .get(this.ApiEndPoint.transaction_read_all)
-      .then(async (response) => {
-        dataRes = {
-          status: true,
-          data: response.data.data,
-        };
-        
-    mainStore.setListTransactions(response.data.data);
-      })
-      .catch(() => {
-        dataRes = {
-          status: false,
-          data: [],
-        };
-      });
-    //console.log(dataRes)
-    return dataRes;
-  };
-
-  /**
-   *
-   * @returns La liste des transaction du systems
-   */
-  getListAllTypeTransaction = async () => {
-    let dataRes = { status: true, data: [] };
-
-    await api
-      .get(this.ApiEndPoint.type_transaction_read)
+      .patch(this.ApiEndPoint.livraisons + "/affect_livreur", data)
       .then(async (response) => {
         dataRes = {
           status: true,

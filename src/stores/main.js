@@ -17,7 +17,7 @@ export const useMainStore = defineStore("main", {
     history: [],
     listAgregator: [],
     listProjet: [],
-    listTransactions: [],
+    listLivraisons: [],
   }),
   actions: {
     setListAgregator(data) {
@@ -26,8 +26,8 @@ export const useMainStore = defineStore("main", {
     setListProjet(data) {
       this.listProjet = data;
     },
-    setListTransactions(data) {
-      this.listTransactions = data;
+    setListLivraisons(data) {
+      this.listLivraisons = data;
     },
     setUser(data) {
       let payload = jwt_decode(data.token);

@@ -22,37 +22,30 @@ export default [
     icon: mdiMonitor,
     label: "Dashboard",
   },
-
   {
-    to: "/projets",
-    label: "Projets",
-    icon: mdiTable,
-  },
-  {
-    to: "/Transactions",
+    to: "",
 
-    label: "Transactions",
+    label: "Livraisons",
     icon: mdiHomeGroup,
-    // menu: [
-    //   {
-    //     to: "/Transactions",
-    //     label: "Liste des Transactions",
-    //   },
-    //   {
-    //     to: "/boutiques/demandes",
-    //     label: "Liste des Demandes",
-    //   },
-    // ],
+    menu: [
+      {
+        to: "/Livraisons/awaiting",
+        label: "Livraisons en attentes",
+      },
+      {
+        to: "/Livraisons/inprocess",
+        label: "Livraisons En cours",
+      },
+      {
+        to: "/Livraisons/finish",
+        label: "Livraisons termines",
+      },
+    ],
   },
 
   {
     to: "/utilisateurs",
     label: "Utilisateurs",
-    icon: mdiAccountSwitch,
-  },
-  {
-    to: "/agregateur",
-    label: "Agregateur",
     icon: mdiAccountSwitch,
   },
   {
