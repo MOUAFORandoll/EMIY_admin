@@ -26,7 +26,7 @@ let request = new RequestApi();
 import router from "@/router";
 
 const chartData = ref(null);
-const dashData = ref({ nbr_projets: 0, nbr_commandes: 0, nbr_livraisons: 0 });
+const dashData = ref({ "nbr_users": 0, "nbr_commandes": 0, "nbr_livraisons": 0 });
 
 const fillChartData = () => {
   chartData.value = chartConfig.sampleChartData();
@@ -38,114 +38,69 @@ const clientBarItems = computed(() => mainStore.clients.slice(0, 4));
 
 const transactionBarItems = computed(() => mainStore.history);
 onMounted(async () => {
-  // await getDashBoard();
+  await getDashBoard();
   fillChartData();
 });
 
 let loading = ref(true);
 let reloading = ref(true);
 async function getDashBoard() {
-  await request.getListAllTransaction();
-  dashData.value = {
-    nbr_projets: mainStore.listProjet.length,
-    nbr_Livraisons: mainStore.listLivraisons.length,
-  };
-  // reloading.value = true;
-  // const response = await request.getDashBoardAction();
-  // if (response.status) {
-  //   reloading.value = false;
-  //   loading.value = false;
-  //   dashData.value = response.data;
-  // } else {
-  //   reloading.value = false;
-  //   loading.value = false;
-  // }
+  reloading.value = true;
+  const response = await request.getDashBoardAction();
+  if (response.status) {
+    reloading.value = false;
+    loading.value = false;
+    dashData.value = response.data;
+  } else {
+    reloading.value = false;
+    loading.value = false;
+  }
 }
-function projet() {
-  console.log("------");
-  router.push("utilisateurs");
+function user() {
+  console.log('------');
+  router.push('utilisateurs')
 }
 function commande() {
-  console.log("------");
-  router.push("commandes");
+  console.log('------');
+  router.push('commandes')
 }
 </script>
 
 <template>
   <LayoutAuthenticated>
     <SectionMain>
-      <SectionTitleLineWithButton
-        :icon="mdiChartTimelineVariant"
-        title="DashBoard"
-        main
-      >
-        <BaseButton
-          target="_blank"
-          :icon="mdiReload"
-          label="Actualise"
-          color="contrast"
-          rounded-full
-          small
-          @click="getDashBoard"
-        />
+      <SectionTitleLineWithButton :icon="mdiChartTimelineVariant" title="DashBoard" main>
+        <BaseButton :loading="reloading" target="_blank" :icon="mdiReload" label="Actualise" color="contrast" rounded-full
+          small @click="getDashBoard" />
       </SectionTitleLineWithButton>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <CardBoxWidget
-          trend-type="up"
-          color="text-emerald-500"
-          :icon="mdiAccountMultiple"
-          :number="dashData.nbr_projets"
-          label="Projets"
-          :navigate="projet"
-        />
-        <CardBoxWidget
-          trend-type="up"
-          color="text-emerald-500"
-          :icon="mdiAccountMultiple"
-          :number="dashData.nbr_Livraisons"
-          label="Livraisons"
-          :navigate="boutique"
-        />
-        <!-- <CardBoxWidget trend="12%" trend-type="down" color="text-blue-500" :icon="mdiCartOutline"
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
+        <CardBoxWidget trend="12%" trend-type="up" color="text-emerald-500" :icon="mdiAccountMultiple"
+          :number="dashData.nbr_users" label="Clients" :navigate="user" />
+        <CardBoxWidget trend="12%" trend-type="up" color="text-emerald-500" :icon="mdiAccountMultiple"
+          :number="dashData.nbr_boutiques" label="Boutiques" :navigate="boutique" />
+        <CardBoxWidget trend="12%" trend-type="down" color="text-blue-500" :icon="mdiCartOutline"
           :number="dashData.nbr_commandes" prefix="" :navigate="commande" label="Commandes" />
         <CardBoxWidget trend="Overflow" trend-type="alert" color="text-red-500" :icon="mdiChartTimelineVariant"
-          :number="dashData.nbr_livraisons" suffix="" :navigate="projet" label="Livraisons" /> -->
+          :number="dashData.nbr_livraisons" suffix="" :navigate="user" label="Livraisons" />
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div class="flex flex-col justify-between">
-          <CardBoxTransaction
-            v-for="(transaction, index) in transactionBarItems"
-            :key="index"
-            :amount="transaction.amount"
-            :date="transaction.date"
-            :business="transaction.business"
-            :type="transaction.type"
-            :name="transaction.name"
-            :account="transaction.account"
-          />
+          <CardBoxTransaction v-for="(transaction, index) in transactionBarItems" :key="index"
+            :amount="transaction.amount" :date="transaction.date" :business="transaction.business"
+            :type="transaction.type" :name="transaction.name" :account="transaction.account" />
         </div>
         <div class="flex flex-col justify-between">
-          <CardBoxClient
-            v-for="client in clientBarItems"
-            :key="client.id"
-            :name="client.name"
-            :login="client.login"
-            :date="client.created"
-            :progress="client.progress"
-          />
+          <CardBoxClient v-for="client in clientBarItems" :key="client.id" :name="client.name" :login="client.login"
+            :date="client.created" :progress="client.progress" />
         </div>
       </div>
 
       <!-- <SectionBannerStarOnGitHub class="mt-6 mb-6" /> -->
 
       <SectionTitleLineWithButton :icon="mdiChartPie" title="Trends overview">
-        <BaseButton
-          :icon="mdiReload"
-          color="whiteDark"
-          @click="fillChartData"
-        />
+        <BaseButton :icon="mdiReload" color="whiteDark" @click="fillChartData" />
       </SectionTitleLineWithButton>
 
       <CardBox class="mb-6">
