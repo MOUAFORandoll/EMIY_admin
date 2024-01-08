@@ -21,8 +21,6 @@ const routes = [
     component: () => import("@/views/LoginView.vue"),
   },
   {
-    // Document title tag
-    // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
       title: "Dashboard",
     },
@@ -30,39 +28,32 @@ const routes = [
     name: "dashboard",
     component: Home,
   },
-  /* {
-   // Document title tag
-   // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
-   meta: {
-     title: "Dashboard",
-   },
-   path: "/dashboard",
-   name: "dashboard",
-   component: Home,
- }, */
+
   {
     meta: {
-      title: "Commandes",
+      title: "Livraisons en attentes",
     },
-    path: "/commandes",
-    name: "commandes",
-    component: () => import("@/views/Commande/CommandeView.vue"),
+    path: "/Livraisons/awaiting",
+    name: "l_awaiting",
+    component: () => import("@/views/Livraisons/LivraisonsAwaiting.vue"),
   },
   {
     meta: {
-      title: "Boutiques",
+      title: "Livraisons En cours",
     },
-    path: "/boutiques",
-    name: "boutiques",
-    component: () => import("@/views/Boutique/BoutiqueView.vue"),
-  }, {
-    meta: {
-      title: "Boutiques",
-    },
-    path: "/boutiques/demandes",
-    name: "boutique_demandes",
-    component: () => import("@/views/Boutique/BoutiqueDemandeView.vue"),
+    path: "/Livraisons/inprocess",
+    name: "l_inprocess",
+    component: () => import("@/views/Livraisons/LivraisonsInProgress.vue"),
   },
+  {
+    meta: {
+      title: "Livraisons termines",
+    },
+    path: "/Livraisons/finish",
+    name: "l_finish",
+    component: () => import("@/views/Livraisons/LivraisonsFinish.vue"),
+  },
+
   {
     meta: {
       title: "Utilisateurs",
@@ -70,53 +61,6 @@ const routes = [
     path: "/utilisateurs",
     name: "utilisateurs",
     component: () => import("@/views/Utilisateurs/UtilisateursView.vue"),
-  }, {
-    meta: {
-      title: "Notifications",
-    },
-    path: "/notifications",
-    name: "notifications",
-    component: () => import("@/views/Notifications/NotificationView.vue"),
-  }, {
-    meta: {
-      title: "Service Client",
-    },
-    path: "/service_client",
-    name: "service_client",
-    component: () => import("@/views/Service_Client/ServiceClientView.vue"),
-  },
-
-  {
-    meta: {
-      title: "Negociations",
-    },
-    path: "/negociations",
-    name: "negociations",
-    component: () => import("@/views/Negociations/NegociationView.vue"),
-  },
-  {
-    meta: {
-      title: "Categorie",
-    },
-    path: "/categories",
-    name: "categories",
-    component: () => import("@/views/Categories/CategorieView.vue"),
-  },
-  {
-    meta: {
-      title: "game",
-    },
-    path: "/game",
-    name: "game",
-    component: () => import("@/views/Game/GameView.vue")
-  },
-  {
-    meta: {
-      title: "Forms",
-    },
-    path: "/forms",
-    name: "forms",
-    component: () => import("@/views/FormsView.vue"),
   },
   {
     meta: {
@@ -133,14 +77,6 @@ const routes = [
     path: "/ui",
     name: "ui",
     component: () => import("@/views/UiView.vue"),
-  },
-  {
-    meta: {
-      title: "Responsive layout",
-    },
-    path: "/responsive",
-    name: "responsive",
-    component: () => import("@/views/ResponsiveView.vue"),
   },
   {
     meta: {
@@ -161,12 +97,16 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  if (to.name != "login") {
-    console.log("different------------------", to.name);
-    if (localStorage.getItem("keySecret") == null) {
-      router.push("/");
-    }
-    //
-  }
+  // if (to.name != "login") {
+  //   console.log(
+  //     "different------------------",
+  //     localStorage.getItem("keySecret"),
+  //     to.name
+  //   );
+  //   if (localStorage.getItem("keySecret") == null) {
+  //     router.push("/");
+  //   }
+  //   //
+  // }
 });
 export default router;

@@ -9,7 +9,11 @@ import {
   mdiTelevisionGuide,
   mdiResponsive,
   mdiPalette,
-  mdiAccountSwitch, mdiBell, mdiHomeGroup, mdiCommentProcessing, mdiPhoneSettings
+  mdiAccountSwitch,
+  mdiBell,
+  mdiHomeGroup,
+  mdiCommentProcessing,
+  mdiPhoneSettings,
 } from "@mdi/js";
 
 export default [
@@ -18,74 +22,31 @@ export default [
     icon: mdiMonitor,
     label: "Dashboard",
   },
-
   {
-    to: "/commandes",
-    label: "Commandes",
-    icon: mdiTable,
-  },
-  {
+    to: "",
 
-    label: "Boutiques",
+    label: "Livraisons",
     icon: mdiHomeGroup,
     menu: [
       {
-        to: "/boutiques",
-        label: "Liste des Boutiques",
-
+        to: "/Livraisons/awaiting",
+        label: "Livraisons en attentes",
       },
       {
-        to: "/boutiques/demandes",
-        label: "Liste des Demandes",
+        to: "/Livraisons/inprocess",
+        label: "Livraisons En cours",
+      },
+      {
+        to: "/Livraisons/finish",
+        label: "Livraisons termines",
       },
     ],
   },
-
 
   {
     to: "/utilisateurs",
     label: "Utilisateurs",
     icon: mdiAccountSwitch,
-  }, {
-    to: "/notifications",
-    label: "Notifications",
-    icon: mdiBell,
-  }, {
-    to: "/negociations",
-    label: "Negociations",
-    icon: mdiCommentProcessing,
-  }, {
-    to: "/service_client",
-    label: "Service Client",
-    icon: mdiPhoneSettings,
-  }, {
-    to: "/categories",
-    label: "Categories",
-    icon: mdiTable,
-  },   {
-    to: "/game",
-    label: "Game",
-    icon: mdiTable,
-  }, 
-  {
-    to: "/forms",
-    label: "Forms",
-    icon: mdiSquareEditOutline,
-  },
-  {
-    to: "/ui",
-    label: "UI",
-    icon: mdiTelevisionGuide,
-  },
-  {
-    to: "/responsive",
-    label: "Responsive",
-    icon: mdiResponsive,
-  },
-  {
-    to: "/",
-    label: "Styles",
-    icon: mdiPalette,
   },
   {
     to: "/profile",
@@ -93,20 +54,8 @@ export default [
     icon: mdiAccountCircle,
   },
   {
-    to: "/error",
-    label: "Error",
-    icon: mdiAlertCircle,
-  },
-  {
-    label: "Dropdown",
-    icon: mdiViewList,
-    menu: [
-      {
-        label: "Item One",
-      },
-      {
-        label: "Item Two",
-      },
-    ],
+    to: "/ui",
+    label: "UI",
+    icon: mdiTelevisionGuide,
   },
 ];

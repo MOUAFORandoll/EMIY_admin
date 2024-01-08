@@ -15,8 +15,20 @@ export const useMainStore = defineStore("main", {
 
     clients: [],
     history: [],
+    listAgregator: [],
+    listProjet: [],
+    listLivraisons: [],
   }),
   actions: {
+    setListAgregator(data) {
+      this.listAgregator = data;
+    },
+    setListProjet(data) {
+      this.listProjet = data;
+    },
+    setListLivraisons(data) {
+      this.listLivraisons = data;
+    },
     setUser(data) {
       let payload = jwt_decode(data.token);
       console.log(payload);
@@ -60,7 +72,6 @@ export const useMainStore = defineStore("main", {
       this.token = null;
       this.refreshToken = null;
       localStorage.clear();
-
     },
     onCreated() {
       localStorage.setItem(
@@ -83,7 +94,6 @@ export const useMainStore = defineStore("main", {
         this.setUser({
           token: localStorage.getItem("token"),
           refreshToken: localStorage.getItem("refreshToken"),
-
         });
         this.setToken(token, refreshToken);
       }
