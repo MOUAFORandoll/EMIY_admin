@@ -95,9 +95,8 @@ function animate() {
 
   // setInterval(() => {
   //   time++;
-  //   console.log('time----', time);
+  console.log('renderer.domElement----', renderer.domElement);
   // }, 10);
-
 
   container.appendChild(renderer.domElement);
   requestAnimationFrame(animate);
@@ -153,7 +152,7 @@ onMounted(() => {
 
 })
 </script>
-<style>
+<!-- <style>
 #container {
   display: flex;
   justify-content: center;
@@ -161,7 +160,7 @@ onMounted(() => {
   height: 50vh;
   background-color: #f5f5f5;
 }
-</style>
+</style> -->
 <template>
   <LayoutAuthenticated>
 
@@ -177,23 +176,23 @@ onMounted(() => {
 
 
 
-      <CardBox class="mb-2" has-table>
 
-        Mise : {{ mise }}
-
-      </CardBox>
-
-      <CardBox class="mb-2" has-table>
-
-        Gain : {{ gain }}
-
-      </CardBox>
 
 
 
       <CardBox class="w-80 justify-center ">
         <div id="container"></div>
+        <!-- <CardBox class="mb-2" has-table>
 
+          Mise : {{ mise }}
+
+        </CardBox> -->
+
+        <CardBox class="mb-2" has-table>
+
+          Gain : {{ gain }}
+
+        </CardBox>
         <div class="mb-2 mt-5 flex space-x-4   ">
           <BaseButton target="_blank" :icon="mdiCogOutline" label="MIN" color='info' small @click="play" />
           <BaseButton target="_blank" :icon="mdiCogOutline" label="X2" color='info' small @click="play" />
